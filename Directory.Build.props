@@ -1,0 +1,14 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <Product>Microsoft.Extensions.Asp.Net</Product>
+    <Authors>Paulo Morgado</Authors>
+    <Company>Paulo Morgado</Company>
+    <RepositoryUrl>https://github.com/paulomorgado/Microsoft.Extensions.AspNet.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ASP.NET </PackageTags>
+    <PackageLicenseFile>$(MSBuildThisFileDirectory)LICENSE</PackageLicenseFile>
+    <Copyright>Copyright © Paulo Morgado 2021</Copyright>
+  </PropertyGroup>
+  
+</Project>

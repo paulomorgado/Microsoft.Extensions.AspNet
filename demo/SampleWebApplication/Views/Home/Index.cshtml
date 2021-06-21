@@ -1,0 +1,14 @@
+﻿@model System.ServiceModel.Syndication.SyndicationFeed
+@{
+    ViewBag.Title = "MVC";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<h2><a href="@(Model.Links[0])">@(Model.Description.Text)</a></h2>
+
+@foreach(var item in Model.Items)
+{
+<h3><a href="@(item.Links[0])">@(item.Title.Text)</a></h3>
+<p>@(item.Summary.Text)</p>
+}
