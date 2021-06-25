@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using Microsoft.Extensions.Options;
 using SampleWebApplication.Options;
 using SampleWebApplication.Services;
-using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace SampleWebApplication.Controllers
 {

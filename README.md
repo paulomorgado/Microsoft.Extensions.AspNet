@@ -1,19 +1,34 @@
+# Disclaimer
+
+This a proof of concept.
+
+This is untested code.
+
+
 # Microsoft.Extensions.AspNet
 `Microsoft.Extensions` extensions for .NET Framework's ASP.NET applications.
 
 ## What's included?
 
-* Dependency Injection
-  * [Microsoft.Extensions.DependencyInjection for ASP.NET](src/Microsoft.Extensions.DependencyInjection.AspNet)
-    * [Use Dependency Injection In WebForms Application](https://devblogs.microsoft.com/aspnet/use-dependency-injection-in-webforms-application/)
-  * [Microsoft.Extensions.DependencyInjection for ASP.NET MVC](src/Microsoft.Extensions.DependencyInjection.AspNetMvc)
-    * [ASP.NET MVC 4 Dependency Injection](https://docs.microsoft.com/en-us/aspnet/mvc/overview/older-versions/hands-on-labs/aspnet-mvc-4-dependency-injection)
-  * [Microsoft.Extensions.DependencyInjection for ASP.NET MVC](src/Microsoft.Extensions.DependencyInjection.AspNetWebApi)
-    * [Dependency Injection in ASP.NET Web API 2](https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection)
-* Configuration
-  * [Microsoft.Extensions.Configuration for ASP.NET](src/Microsoft.Extensions.Configuration.AspNet)
 * Hosting
-  * [Microsoft.Extensions.Hosting.Abstractions for ASP.NET](src/Microsoft.Extensions.Hosting.AspNet)
+  * [Hosting Abstractions for ASP.NET](src/Microsoft.AspNet.Hosting.HttpRuntime.Abstractions)
+  * [Hosting implementations for ASP.NET](src/Microsoft.AspNet.Hosting.HttpRuntime)
+    * Supports
+      * Web Forms
+      * Master Pages
+      * Web Handlers
+    * Provides
+      * Dependency Injection
+      * Configuration
+      * Logging
+* MVC
+  * [Hosting Abstractions for ASP.NET MVC](src/Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractions)
+  * [Hosting implementations for ASP.NET MVC](src/Microsoft.AspNet.Hosting.HttpRuntime.Mvc)
+* Web API
+  * [Hosting Abstractions for ASP.NET Web API](src/Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractions)
+  * [Hosting implementations for ASP.NET Web API](src/Microsoft.AspNet.Hosting.HttpRuntime.WebApi)
+
+# Demo application
 
 Checkout the [demo application](demo/SampleWebApplication).
 This application features:

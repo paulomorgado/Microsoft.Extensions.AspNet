@@ -1,16 +1,13 @@
-﻿using Microsoft.Extensions.Options;
-using SampleWebApplication.Options;
-using SampleWebApplication.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.Extensions.Options;
+using SampleWebApplication.Options;
+using SampleWebApplication.Services;
 
 namespace SampleWebApplication.Controllers
 {
+    [RoutePrefix("api/feed")]
     public class FeedController : ApiController
     {
         private readonly ISyndicationClient syndicationClient;
