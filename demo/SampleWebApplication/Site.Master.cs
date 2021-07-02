@@ -1,11 +1,7 @@
-﻿using Microsoft.Extensions.Options;
-using SampleWebApplication.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using Microsoft.Extensions.Options;
+using SampleWebApplication.Options;
 
 namespace SampleWebApplication
 {
