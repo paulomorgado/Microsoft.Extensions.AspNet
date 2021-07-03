@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Hosting.SystemWeb;
 using SampleWebApplication.App_Start;
 
 namespace SampleWebApplication
