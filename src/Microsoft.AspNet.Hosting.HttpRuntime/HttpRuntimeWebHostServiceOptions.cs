@@ -4,7 +4,7 @@ using Microsoft.HttpRuntime.Hosting;
 
 namespace Microsoft.AspNet.Hosting
 {
-    internal class HttpRuntimeWebHostServiceOptions
+    internal sealed class HttpRuntimeWebHostServiceOptions
     {
         public Action<IHttpRuntimeApplicationBuilder> ConfigureApplication { get; set; }
 

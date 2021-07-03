@@ -11,11 +11,11 @@
             builder.ConfigureAppConfiguration((ctx, cb) =>
             {
             });
-#endif
 
             builder.ConfigureServices((hostingContext, services) =>
             {
             });
         }
+#endif
     }
 }

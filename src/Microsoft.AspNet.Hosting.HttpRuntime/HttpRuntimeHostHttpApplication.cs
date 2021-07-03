@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Web;
+using Microsoft.AspNet.Hosting.HttpRuntime;
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.AspNet.Hosting
 {
-    public class HttpRuntimeHostHttpApplication : global::System.Web.HttpApplication
+    public abstract class HttpRuntimeHostHttpApplication : global::System.Web.HttpApplication
     {
-        private static IHttpRuntimeHost host;
+        private static IHost host;
 
-        public HttpRuntimeHostHttpApplication()
+        protected HttpRuntimeHostHttpApplication()
         {
-            host?.Start(this);
+            if (!(host is null))
+            {
+                new HttpRuntimeHostModule(host.Services).Init(this);
+            }
         }
 
         public override void Init()
@@ -22,9 +27,11 @@ namespace Microsoft.AspNet.Hosting
             base.Init();
         }
 
-        protected virtual void BuildHost(IHttpRuntimeHostBuilder builder)
+        protected virtual void BuildHost(IHostBuilder builder)
         {
         }
+
+        protected abstract void BuildWebHost(IHttpRuntimeWebHostBuilder webBuilder);
 
         protected virtual void BuildAndStartHost()
         {
@@ -33,20 +40,26 @@ namespace Microsoft.AspNet.Hosting
                 throw new HttpException("The HttpRuntimeHost has already been initialized.");
             }
 
-            var builder = HttpRuntimeHost.CreateDefaultBuilder();
+            var builder = Host
+                .CreateDefaultBuilder()
+                .ConfigureHttpRuntimeHostDefaults();
 
             BuildHost(builder);
 
+            builder.ConfigureHttpRuntimeWebHostDefaults(BuildWebHost);
+
             host = builder.Build();
 
-            host.Start(this);
+            host.Start();
+
+            new HttpRuntimeHostModule(host.Services).Init(this);
         }
 
         protected virtual void StopHost()
         {
             if (!(host is null))
             {
-                host.Stop();
+                host.StopAsync().GetAwaiter().GetResult();
                 host.Dispose();
             }
         }
