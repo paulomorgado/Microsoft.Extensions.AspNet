@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -7,12 +8,12 @@ namespace Microsoft.AspNet.Hosting
     /// <summary>
     /// Contains extensions for an <see cref="IHostBuilder"/>.
     /// </summary>
-    public static class HttpRuntimeHostWebHostBuilderExtensions
+    public static class GenericHostWebHostBuilderExtensions
     {
         /// <summary>
         /// Adds and configures an ASP.NET Core web application.
         /// </summary>
-        public static IHostBuilder ConfigureWebHost(this IHostBuilder builder, Action<IHttpRuntimeWebHostBuilder> configure)
+        public static IHostBuilder ConfigureWebHost(this IHostBuilder builder, Action<IWebHostBuilder> configure)
         {
             if (configure is null)
             {
@@ -25,7 +26,7 @@ namespace Microsoft.AspNet.Hosting
         /// <summary>
         /// Adds and configures an ASP.NET Core web application.
         /// </summary>
-        public static IHostBuilder ConfigureWebHost(this IHostBuilder builder, Action<IHttpRuntimeWebHostBuilder> configure, Action<HttpRuntimeWebHostBuilderOptions> configureHttpRuntimeWebHostBuilder)
+        public static IHostBuilder ConfigureWebHost(this IHostBuilder builder, Action<IWebHostBuilder> configure, Action<GenericWebHostBuilderOptions> configureHttpRuntimeWebHostBuilder)
         {
             if (configure is null)
             {
@@ -37,11 +38,11 @@ namespace Microsoft.AspNet.Hosting
                 throw new ArgumentNullException(nameof(configureHttpRuntimeWebHostBuilder));
             }
 
-            var options = new HttpRuntimeWebHostBuilderOptions();
+            var options = new GenericWebHostBuilderOptions();
             configureHttpRuntimeWebHostBuilder(options);
-            var httpRuntimeWebHostBuilder = new HttpRuntimeWebHostBuilder(builder, options);
+            var httpRuntimeWebHostBuilder = new GenericWebHostBuilder(builder, options);
             configure(httpRuntimeWebHostBuilder);
-            builder.ConfigureServices((context, services) => services.AddHostedService<HttpRuntimeWebHostService>());
+            builder.ConfigureServices((context, services) => services.AddHostedService<GenericWebHostService>());
             return builder;
         }
     }

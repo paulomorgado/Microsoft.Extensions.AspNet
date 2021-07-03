@@ -5,9 +5,12 @@ using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Web.Compilation;
 using System.Web.Configuration;
+using Microsoft.AspNet.Hosting.Builder;
 using Microsoft.AspNet.Hosting.HttpRuntime;
 using Microsoft.AspNet.Hosting.HttpRuntime.DependencyInjection;
 using Microsoft.AspNet.Hosting.HttpRuntime.Startup;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -17,16 +20,16 @@ using Microsoft.HttpRuntime.Hosting;
 namespace Microsoft.AspNet.Hosting
 {
     /// <summary>
-    /// A builder for <see cref="IHttpRuntimeWebHost"/>
+    /// A builder for <see cref="IWebHost"/>
     /// </summary>
-    internal class HttpRuntimeWebHostBuilder : IHttpRuntimeWebHostBuilder, ISupportsStartup, ISupportsUseDefaultServiceProvider
+    internal class GenericWebHostBuilder : IWebHostBuilder, ISupportsStartup, ISupportsUseDefaultServiceProvider
     {
         private readonly IHostBuilder builder;
         private readonly IConfiguration config;
         private readonly object startupKey = new object();
         private object startupObject;
 
-        public HttpRuntimeWebHostBuilder(IHostBuilder builder, HttpRuntimeWebHostBuilderOptions options)
+        public GenericWebHostBuilder(IHostBuilder builder, GenericWebHostBuilderOptions options)
         {
             this.builder = builder;
 
@@ -58,13 +61,13 @@ namespace Microsoft.AspNet.Hosting
                 // Add the IHostingEnvironment and IApplicationLifetime from Microsoft.AspNetCore.Hosting
                 services.AddSingleton(webhostContext.HostingEnvironment);
 
-                services.Configure<HttpRuntimeWebHostServiceOptions>(op =>
+                services.Configure<GenericWebHostServiceOptions>(op =>
                 {
                     // Set the options
                     op.WebHostOptions = webHostOptions;
                 });
 
-                services.TryAddSingleton<IHttpRuntimeApplicationBuilder, HttpRuntimeApplicationBuilder>();
+                services.TryAddSingleton<IApplicationBuilderFactory, ApplicationBuilderFactory>();
 
                 // Support UseStartup(assemblyName)
                 if (!string.IsNullOrEmpty(webHostOptions.StartupAssembly))
@@ -78,7 +81,7 @@ namespace Microsoft.AspNet.Hosting
                     {
                         var capture = ExceptionDispatchInfo.Capture(ex);
 
-                        services.Configure<HttpRuntimeWebHostServiceOptions>(op =>
+                        services.Configure<GenericWebHostServiceOptions>(op =>
                         {
                             op.ConfigureApplication = app =>
                             {
@@ -91,12 +94,12 @@ namespace Microsoft.AspNet.Hosting
             });
         }
 
-        public IHttpRuntimeWebHost Build()
+        public IWebHost Build()
         {
-            throw new NotSupportedException($"Building this implementation of {nameof(IHttpRuntimeWebHostBuilder)} is not supported.");
+            throw new NotSupportedException($"Building this implementation of {nameof(IWebHostBuilder)} is not supported.");
         }
 
-        public IHttpRuntimeWebHostBuilder ConfigureAppConfiguration(Action<HttpRuntimeWebHostBuilderContext, IConfigurationBuilder> configureDelegate)
+        public IWebHostBuilder ConfigureAppConfiguration(Action<WebHostBuilderContext, IConfigurationBuilder> configureDelegate)
         {
             this.builder.ConfigureAppConfiguration((context, builder) =>
             {
@@ -107,12 +110,12 @@ namespace Microsoft.AspNet.Hosting
             return this;
         }
 
-        public IHttpRuntimeWebHostBuilder ConfigureServices(Action<IServiceCollection> configureServices)
+        public IWebHostBuilder ConfigureServices(Action<IServiceCollection> configureServices)
         {
             return ConfigureServices((context, services) => configureServices(services));
         }
 
-        public IHttpRuntimeWebHostBuilder ConfigureServices(Action<HttpRuntimeWebHostBuilderContext, IServiceCollection> configureServices)
+        public IWebHostBuilder ConfigureServices(Action<WebHostBuilderContext, IServiceCollection> configureServices)
         {
             this.builder.ConfigureServices((context, builder) =>
             {
@@ -123,7 +126,7 @@ namespace Microsoft.AspNet.Hosting
             return this;
         }
 
-        public IHttpRuntimeWebHostBuilder UseDefaultServiceProvider(Action<HttpRuntimeWebHostBuilderContext, ServiceProviderOptions> configure)
+        public IWebHostBuilder UseDefaultServiceProvider(Action<WebHostBuilderContext, ServiceProviderOptions> configure)
         {
             this.builder.UseServiceProviderFactory(context =>
             {
@@ -136,7 +139,7 @@ namespace Microsoft.AspNet.Hosting
             return this;
         }
 
-        public IHttpRuntimeWebHostBuilder UseStartup(Type startupType)
+        public IWebHostBuilder UseStartup(Type startupType)
         {
             // UseStartup can be called multiple times. Only run the last one.
             this.startupObject = startupType;
@@ -153,7 +156,7 @@ namespace Microsoft.AspNet.Hosting
             return this;
         }
 
-        public IHttpRuntimeWebHostBuilder UseStartup<TStartup>(Func<HttpRuntimeWebHostBuilderContext, TStartup> startupFactory)
+        public IWebHostBuilder UseStartup<TStartup>(Func<WebHostBuilderContext, TStartup> startupFactory)
         {
             // Clear the startup type
             this.startupObject = startupFactory;
@@ -184,13 +187,13 @@ namespace Microsoft.AspNet.Hosting
             return this.config[key];
         }
 
-        public IHttpRuntimeWebHostBuilder UseSetting(string key, string value)
+        public IWebHostBuilder UseSetting(string key, string value)
         {
             this.config[key] = value;
             return this;
         }
 
-        public IHttpRuntimeWebHostBuilder Configure(Action<HttpRuntimeWebHostBuilderContext, IHttpRuntimeApplicationBuilder> configure)
+        public IWebHostBuilder Configure(Action<WebHostBuilderContext, IApplicationBuilder> configure)
         {
             throw new NotImplementedException();
         }
@@ -225,24 +228,25 @@ namespace Microsoft.AspNet.Hosting
             }
         }
 
-        private static HttpRuntimeWebHostBuilderContext GetWebHostBuilderContext(HostBuilderContext context)
+        private static WebHostBuilderContext GetWebHostBuilderContext(HostBuilderContext context)
         {
-            if (!context.Properties.TryGetValue(typeof(HttpRuntimeWebHostBuilderContext), out var contextVal))
+            if (!context.Properties.TryGetValue(typeof(WebHostBuilderContext), out var contextVal))
             {
                 var options = new WebHostOptions(context.Configuration, BuildManager.GetGlobalAsaxType()?.BaseType.Assembly.GetName().Name ?? string.Empty);
-                var webHostBuilderContext = new HttpRuntimeWebHostBuilderContext
+                HostingEnvironment hostingEnvironment = new HostingEnvironment();
+                var webHostBuilderContext = new WebHostBuilderContext
                 {
                     Configuration = context.Configuration,
-                    HostingEnvironment = new HttpRuntimeHostingEnvironment(),
+                    HostingEnvironment = hostingEnvironment,
                 };
-                webHostBuilderContext.HostingEnvironment.Initialize(System.Web.HttpRuntime.AppDomainAppPath, options);
-                context.Properties[typeof(HttpRuntimeWebHostBuilderContext)] = webHostBuilderContext;
+                hostingEnvironment.Initialize(System.Web.HttpRuntime.AppDomainAppPath, options);
+                context.Properties[typeof(WebHostBuilderContext)] = webHostBuilderContext;
                 context.Properties[typeof(WebHostOptions)] = options;
                 return webHostBuilderContext;
             }
 
             // Refresh config, it's periodically updated/replaced
-            var webHostContext = (HttpRuntimeWebHostBuilderContext)contextVal;
+            var webHostContext = (WebHostBuilderContext)contextVal;
             webHostContext.Configuration = context.Configuration;
             return webHostContext;
         }
@@ -258,9 +262,9 @@ namespace Microsoft.AspNet.Hosting
             try
             {
                 // We cannot support methods that return IServiceProvider as that is terminal and we need ConfigureServices to compose
-                if (typeof(IHttpRuntimeStartup).IsAssignableFrom(startupType))
+                if (typeof(IStartup).IsAssignableFrom(startupType))
                 {
-                    throw new NotSupportedException($"{typeof(IHttpRuntimeStartup)} isn't supported");
+                    throw new NotSupportedException($"{typeof(IStartup)} isn't supported");
                 }
 
                 if (StartupLoader.HasConfigureServicesIServiceProviderDelegate(startupType, context.HostingEnvironment.EnvironmentName))
@@ -293,7 +297,7 @@ namespace Microsoft.AspNet.Hosting
                     var actionType = typeof(Action<,>).MakeGenericType(typeof(HostBuilderContext), containerType);
 
                     // Get the private ConfigureContainer method on this type then close over the container type
-                    var configureCallback = typeof(HttpRuntimeWebHostBuilder).GetMethod(nameof(ConfigureContainerImpl), BindingFlags.NonPublic | BindingFlags.Instance)
+                    var configureCallback = typeof(GenericWebHostBuilder).GetMethod(nameof(ConfigureContainerImpl), BindingFlags.NonPublic | BindingFlags.Instance)
                                                      .MakeGenericMethod(containerType)
                                                      .CreateDelegate(actionType, this);
 
@@ -312,7 +316,7 @@ namespace Microsoft.AspNet.Hosting
             }
 
             // Startup.Configure
-            services.Configure<HttpRuntimeWebHostServiceOptions>(options =>
+            services.Configure<GenericWebHostServiceOptions>(options =>
             {
                 options.ConfigureApplication = app =>
                 {
@@ -338,9 +342,9 @@ namespace Microsoft.AspNet.Hosting
         // This exists just so that we can use ActivatorUtilities.CreateInstance on the Startup class
         private class HostServiceProvider : IServiceProvider
         {
-            private readonly HttpRuntimeWebHostBuilderContext _context;
+            private readonly WebHostBuilderContext _context;
 
-            public HostServiceProvider(HttpRuntimeWebHostBuilderContext context)
+            public HostServiceProvider(WebHostBuilderContext context)
             {
                 _context = context;
             }
@@ -351,7 +355,7 @@ namespace Microsoft.AspNet.Hosting
 #pragma warning disable CS0618 // Type or member is obsolete
                 if (serviceType == typeof(Microsoft.Extensions.Hosting.IHostingEnvironment)
 #pragma warning restore CS0618 // Type or member is obsolete
-                    || serviceType == typeof(IHttpRuntimeWebHostEnvironment)
+                    || serviceType == typeof(IWebHostEnvironment)
                     || serviceType == typeof(IHostEnvironment)
                     )
                 {

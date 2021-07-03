@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using Microsoft.AspNet.Hosting.HttpRuntime;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.AspNet.Hosting
@@ -31,7 +32,7 @@ namespace Microsoft.AspNet.Hosting
         {
         }
 
-        protected abstract void BuildWebHost(IHttpRuntimeWebHostBuilder webBuilder);
+        protected abstract void BuildWebHost(IWebHostBuilder webBuilder);
 
         protected virtual void BuildAndStartHost()
         {

@@ -6,7 +6,7 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime
 {
     internal static class HostingEnvironmentExtensions
     {
-        internal static void Initialize(this IHttpRuntimeWebHostEnvironment hostingEnvironment, string contentRootPath, WebHostOptions options)
+        internal static void Initialize(this IWebHostEnvironment hostingEnvironment, string contentRootPath, WebHostOptions options)
         {
             if (options == null)
             {

@@ -1,21 +1,22 @@
 ﻿using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.HttpRuntime.Hosting;
 
 namespace Microsoft.AspNet.Hosting.HttpRuntime.Startup
 {
     /// <summary>
     /// Base class for initializing services and middlewares used by an application.
     /// </summary>
-    public abstract class StartupBase : IHttpRuntimeStartup
+    public abstract class StartupBase : IStartup
     {
         /// <summary>
         /// Configures the application.
         /// </summary>
         /// <param name="app">An <see cref="IApplicationBuilder"/> for the app to configure.</param>
-        public abstract void Configure(IHttpRuntimeApplicationBuilder app);
+        public abstract void Configure(IApplicationBuilder app);
 
-        IServiceProvider IHttpRuntimeStartup.ConfigureServices(IServiceCollection services)
+        IServiceProvider IStartup.ConfigureServices(IServiceCollection services)
         {
             ConfigureServices(services);
             return CreateServiceProvider(services);

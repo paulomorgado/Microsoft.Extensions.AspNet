@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Microsoft.AspNet.Hosting
 {
@@ -7,7 +8,7 @@ namespace Microsoft.AspNet.Hosting
     {
         public HttpRuntimeHostHttpApplication() : base() { }
 
-        protected override void BuildWebHost(IHttpRuntimeWebHostBuilder webBuilder)
+        protected override void BuildWebHost(IWebHostBuilder webBuilder)
         {
             webBuilder.UseStartup<TStartup>();
         }

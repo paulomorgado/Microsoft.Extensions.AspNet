@@ -60,6 +60,18 @@
     <Reference Include="Microsoft.AspNet.Web.Optimization.WebForms, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.WebForms.1.1.3\lib\net45\Microsoft.AspNet.Web.Optimization.WebForms.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNetCore.Hosting.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -395,10 +407,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime.Abstractions\Microsoft.AspNet.Hosting.HttpRuntime.Abstractions.csproj">
-      <Project>{389f129b-1f82-4416-ae59-dd05de570806}</Project>
-      <Name>Microsoft.AspNet.Hosting.HttpRuntime.Abstractions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions.csproj">
       <Project>{c23cd5e0-bdd7-43a1-8833-95ff1c86ecad}</Project>
       <Name>Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions</Name>
@@ -418,6 +426,10 @@
     <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime\Microsoft.AspNet.Hosting.HttpRuntime.csproj">
       <Project>{ff7a9ce8-19bb-4dc9-81d0-ff5eb309db72}</Project>
       <Name>Microsoft.AspNet.Hosting.HttpRuntime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj">
+      <Project>{1b29ea7f-229d-463d-9227-4d7ae99b3ffa}</Project>
+      <Name>Microsoft.AspNet.Hosting</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

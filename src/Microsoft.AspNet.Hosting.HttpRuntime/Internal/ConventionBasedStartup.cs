@@ -2,12 +2,13 @@
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 using Microsoft.AspNet.Hosting.HttpRuntime.Startup;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.HttpRuntime.Hosting;
 
 namespace Microsoft.AspNet.Hosting.HttpRuntime
 {
-    internal class ConventionBasedStartup : IHttpRuntimeStartup
+    internal class ConventionBasedStartup : IStartup
     {
         private readonly StartupMethods _methods;
 
@@ -16,7 +17,7 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime
             _methods = methods;
         }
 
-        public void Configure(IHttpRuntimeApplicationBuilder app)
+        public void Configure(IApplicationBuilder app)
         {
             try
             {

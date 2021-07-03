@@ -3,7 +3,7 @@
 namespace Microsoft.AspNet.Hosting
 {
 #pragma warning disable CS0618 // Type or member is obsolete
-    internal class HttpRuntimeHostingEnvironment : IHttpRuntimeHostingEnvironment, Extensions.Hosting.IHostingEnvironment, IHttpRuntimeWebHostEnvironment
+    internal class HostingEnvironment : AspNetCore.Hosting.IHostingEnvironment, IWebHostEnvironment
 #pragma warning restore CS0618 // Type or member is obsolete
     {
         /// <inheritdoc/>
