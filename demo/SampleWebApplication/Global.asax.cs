@@ -3,7 +3,7 @@ using SampleWebApplication.App_Start;
 
 namespace SampleWebApplication
 {
-    public class Global : HttpApplicationHost<Startup>
+    public class Global : HttpRuntimeHostHttpApplication<Startup>
     {
     }
 }

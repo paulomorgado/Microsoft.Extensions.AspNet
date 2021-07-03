@@ -2,13 +2,14 @@
 
 namespace Microsoft.AspNet.Hosting
 {
-    public class HttpApplicationHost<TStartup>: HttpRuntimeHostHttpApplication
+    public class HttpRuntimeHostHttpApplication<TStartup> : HttpRuntimeHostHttpApplication
         where TStartup : class
     {
-        protected override void BuildHost(IHttpRuntimeHostBuilder builder)
+        public HttpRuntimeHostHttpApplication() : base() { }
+
+        protected override void BuildWebHost(IHttpRuntimeWebHostBuilder webBuilder)
         {
-            builder.ConfigureHttpRuntimeHostDefaults(webBuilder => webBuilder.UseStartup<TStartup>());
-            base.BuildHost(builder);
+            webBuilder.UseStartup<TStartup>();
         }
 
         protected override void Application_Start(object sender, EventArgs e)
