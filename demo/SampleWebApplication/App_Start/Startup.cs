@@ -7,6 +7,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Hosting.HttpRuntime;
 using Microsoft.AspNet.Hosting.HttpRuntime.Mvc;
 using Microsoft.AspNet.Hosting.HttpRuntime.WebApi;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.HttpRuntime.Hosting;
@@ -22,9 +23,9 @@ namespace SampleWebApplication.App_Start
     {
         private readonly IConfiguration configuration;
 
-        private readonly IHttpRuntimeWebHostEnvironment environment;
+        private readonly IWebHostEnvironment environment;
 
-        public Startup(IConfiguration configuration, IHttpRuntimeWebHostEnvironment environment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             this.configuration = configuration;
             this.environment = environment;
@@ -47,7 +48,7 @@ namespace SampleWebApplication.App_Start
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IHttpRuntimeApplicationBuilder app)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseWebApi(webApi =>
                 {

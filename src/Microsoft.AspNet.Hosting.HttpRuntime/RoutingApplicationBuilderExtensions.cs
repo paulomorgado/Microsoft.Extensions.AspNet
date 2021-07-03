@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Web.Routing;
-using Microsoft.HttpRuntime.Hosting;
+using Microsoft.AspNetCore.Builder;
 
 namespace Microsoft.AspNet.Hosting.HttpRuntime
 {
     /// <summary>
-    /// Contains extension methods to <see cref="IHttpRuntimeApplicationBuilder"/>.
+    /// Contains extension methods to <see cref="IApplicationBuilder"/>.
     /// </summary>
     public static class RoutingApplicationBuilderExtensions
     {
         /// <summary>
         /// Adds routing to the <see cref="IApplicationBuilder"/> request execution pipeline.
         /// </summary>
-        /// <param name="app">The <see cref="IHttpRuntimeApplicationBuilder"/>.</param>
+        /// <param name="app">The <see cref="IApplicationBuilder"/>.</param>
         /// <param name="configureDelegate">Delegate to configure the routes.</param>
-        /// <returns>The <see cref="IHttpRuntimeApplicationBuilder"/> so that additional calls can be chained.</returns>
-        public static IHttpRuntimeApplicationBuilder UseRouting(
-            this IHttpRuntimeApplicationBuilder app,
+        /// <returns>The <see cref="IApplicationBuilder"/> so that additional calls can be chained.</returns>
+        public static IApplicationBuilder UseRouting(
+            this IApplicationBuilder app,
             Action<RouteCollection> configureDelegate)
         {
             if (app == null)

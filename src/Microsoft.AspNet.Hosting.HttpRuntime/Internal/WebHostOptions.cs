@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.AspNet.Hosting.HttpRuntime
@@ -12,14 +13,14 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            ApplicationName = configuration[HttpRuntimeWebHostDefaults.ApplicationKey] ?? applicationNameFallback;
-            StartupAssembly = configuration[HttpRuntimeWebHostDefaults.StartupAssemblyKey];
-            DetailedErrors = configuration.ParseBool(HttpRuntimeWebHostDefaults.DetailedErrorsKey);
-            CaptureStartupErrors = configuration.ParseBool(HttpRuntimeWebHostDefaults.CaptureStartupErrorsKey);
-            Environment = configuration[HttpRuntimeWebHostDefaults.EnvironmentKey];
-            WebRoot = configuration[HttpRuntimeWebHostDefaults.WebRootKey];
-            ContentRootPath = configuration[HttpRuntimeWebHostDefaults.ContentRootKey];
-            SuppressStatusMessages = configuration.ParseBool(HttpRuntimeWebHostDefaults.SuppressStatusMessagesKey);
+            ApplicationName = configuration[WebHostDefaults.ApplicationKey] ?? applicationNameFallback;
+            StartupAssembly = configuration[WebHostDefaults.StartupAssemblyKey];
+            DetailedErrors = configuration.ParseBool(WebHostDefaults.DetailedErrorsKey);
+            CaptureStartupErrors = configuration.ParseBool(WebHostDefaults.CaptureStartupErrorsKey);
+            Environment = configuration[WebHostDefaults.EnvironmentKey];
+            WebRoot = configuration[WebHostDefaults.WebRootKey];
+            ContentRootPath = configuration[WebHostDefaults.ContentRootKey];
+            SuppressStatusMessages = configuration.ParseBool(WebHostDefaults.SuppressStatusMessagesKey);
         }
 
         public string ApplicationName { get; set; }

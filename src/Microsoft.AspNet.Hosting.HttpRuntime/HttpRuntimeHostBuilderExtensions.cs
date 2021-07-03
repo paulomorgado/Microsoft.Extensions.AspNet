@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using Microsoft.AspNet.Hosting.HttpRuntime.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNet.Hosting
 {
@@ -22,7 +20,7 @@ namespace Microsoft.AspNet.Hosting
                 .UseServiceProviderFactory<IServiceCollection>(new HttpRuntimeServiceProviderFactory());
         }
 
-        public static IHostBuilder ConfigureHttpRuntimeWebHostDefaults(this IHostBuilder builder, Action<IHttpRuntimeWebHostBuilder> configure)
+        public static IHostBuilder ConfigureHttpRuntimeWebHostDefaults(this IHostBuilder builder, Action<IWebHostBuilder> configure)
         {
             if (builder is null)
             {

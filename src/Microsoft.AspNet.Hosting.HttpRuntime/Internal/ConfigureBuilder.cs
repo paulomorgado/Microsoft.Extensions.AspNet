@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.HttpRuntime.Hosting;
 
 namespace Microsoft.AspNet.Hosting.HttpRuntime
 {
@@ -15,9 +15,9 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime
 
         public MethodInfo MethodInfo { get; }
 
-        public Action<IHttpRuntimeApplicationBuilder> Build(object instance) => builder => Invoke(instance, builder);
+        public Action<IApplicationBuilder> Build(object instance) => builder => Invoke(instance, builder);
 
-        private void Invoke(object instance, IHttpRuntimeApplicationBuilder builder)
+        private void Invoke(object instance, IApplicationBuilder builder)
         {
             // Create a scope for Configure, this allows creating scoped dependencies
             // without the hassle of manually creating a scope.
@@ -29,7 +29,7 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime
                 for (var index = 0; index < parameterInfos.Length; index++)
                 {
                     var parameterInfo = parameterInfos[index];
-                    if (parameterInfo.ParameterType == typeof(IHttpRuntimeApplicationBuilder))
+                    if (parameterInfo.ParameterType == typeof(IApplicationBuilder))
                     {
                         parameters[index] = builder;
                     }

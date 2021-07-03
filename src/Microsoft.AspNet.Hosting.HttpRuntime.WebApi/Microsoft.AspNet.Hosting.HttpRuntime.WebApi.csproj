@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AspNet.Hosting.HttpRuntime.Abstractions\Microsoft.AspNet.Hosting.HttpRuntime.Abstractions.csproj" />
     <ProjectReference Include="..\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions.csproj" />
+    <ProjectReference Include="..\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,7 +6,7 @@ namespace Microsoft.AspNet.Hosting
     /// <summary>
     /// Provides information about the web hosting environment an application is running in.
     /// </summary>
-    public interface IHttpRuntimeWebHostEnvironment : IHostEnvironment
+    public interface IWebHostEnvironment : IHostEnvironment
     {
         /// <summary>
         /// Gets or sets the absolute path to the directory that contains the web-servable application content files.

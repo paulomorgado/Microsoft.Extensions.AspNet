@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Web.Mvc;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.HttpRuntime.Hosting;
 
 namespace Microsoft.AspNet.Hosting.HttpRuntime.Mvc
 {
     /// <summary>
-    /// Contains extension methods to <see cref="IHttpRuntimeApplicationBuilder"/>.
+    /// Contains extension methods to <see cref="IApplicationBuilder"/>.
     /// </summary>
     public static class MvcApplicationBuilderExtensions
     {
-        public static IHttpRuntimeApplicationBuilder UseMvc(this IHttpRuntimeApplicationBuilder app)
+        public static IApplicationBuilder UseMvc(this IApplicationBuilder app)
         {
             if (app == null)
             {
@@ -22,7 +22,7 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime.Mvc
             return app;
         }
 
-        public static IHttpRuntimeApplicationBuilder UseMvc(this IHttpRuntimeApplicationBuilder app, Action<IMvcApplicationBuilder> configureDelegate)
+        public static IApplicationBuilder UseMvc(this IApplicationBuilder app, Action<IMvcApplicationBuilder> configureDelegate)
         {
             if (app == null)
             {

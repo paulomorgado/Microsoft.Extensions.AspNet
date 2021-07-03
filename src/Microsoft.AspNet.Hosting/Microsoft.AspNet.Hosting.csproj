@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Microsoft.AspNet.Hosting</RootNamespace>
@@ -7,11 +7,12 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Description>Hosting and startup abstractions for ASP.NET applications on .NET Framework.</Description>
   </PropertyGroup>
-  
+
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Reference Include="System.Web" />
   </ItemGroup>

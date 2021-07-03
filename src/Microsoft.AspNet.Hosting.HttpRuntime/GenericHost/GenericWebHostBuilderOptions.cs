@@ -3,7 +3,7 @@
     /// <summary>
     /// Builder options for use with ConfigureWebHost.
     /// </summary>
-    public class HttpRuntimeWebHostBuilderOptions
+    public class GenericWebHostBuilderOptions
     {
         /// <summary>
         /// Indicates if "ASPNET_" prefixed environment variables should be added to configuration.
