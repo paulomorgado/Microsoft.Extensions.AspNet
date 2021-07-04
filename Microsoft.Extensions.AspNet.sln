@@ -22,17 +22,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication", "demo\SampleWebApplication\SampleWebApplication.csproj", "{AF335E81-CD55-49BC-980E-6F689866DCEB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.HttpRuntime", "src\Microsoft.AspNet.Hosting.HttpRuntime\Microsoft.AspNet.Hosting.HttpRuntime.csproj", "{FF7A9CE8-19BB-4DC9-81D0-FF5EB309DB72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb", "src\Microsoft.AspNet.Hosting.SystemWeb\Microsoft.AspNet.Hosting.SystemWeb.csproj", "{FF7A9CE8-19BB-4DC9-81D0-FF5EB309DB72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions", "src\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions.csproj", "{C23CD5E0-BDD7-43A1-8833-95FF1C86ECAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions", "src\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions.csproj", "{C23CD5E0-BDD7-43A1-8833-95FF1C86ECAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.HttpRuntime.Mvc", "src\Microsoft.AspNet.Hosting.HttpRuntime.Mvc\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.csproj", "{CE796D45-BDF1-4EBF-A677-C66C3A9A4250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb.Mvc", "src\Microsoft.AspNet.Hosting.SystemWeb.Mvc\Microsoft.AspNet.Hosting.SystemWeb.Mvc.csproj", "{CE796D45-BDF1-4EBF-A677-C66C3A9A4250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions", "src\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions.csproj", "{9D3FCA9A-108F-4664-8FC7-1E71B767DA87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions", "src\Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions\Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions.csproj", "{9D3FCA9A-108F-4664-8FC7-1E71B767DA87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.HttpRuntime.WebApi", "src\Microsoft.AspNet.Hosting.HttpRuntime.WebApi\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.csproj", "{556F5E46-6510-41FA-9EA6-A72834BAAC2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb.WebApi", "src\Microsoft.AspNet.Hosting.SystemWeb.WebApi\Microsoft.AspNet.Hosting.SystemWeb.WebApi.csproj", "{556F5E46-6510-41FA-9EA6-A72834BAAC2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AspNet.Hosting", "src\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj", "{1B29EA7F-229D-463D-9227-4D7AE99B3FFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting", "src\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj", "{1B29EA7F-229D-463D-9227-4D7AE99B3FFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -407,25 +407,25 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions.csproj">
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions.csproj">
       <Project>{c23cd5e0-bdd7-43a1-8833-95ff1c86ecad}</Project>
-      <Name>Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractiions</Name>
+      <Name>Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime.Mvc\Microsoft.AspNet.Hosting.HttpRuntime.Mvc.csproj">
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.SystemWeb.Mvc\Microsoft.AspNet.Hosting.SystemWeb.Mvc.csproj">
       <Project>{ce796d45-bdf1-4ebf-a677-c66c3a9a4250}</Project>
-      <Name>Microsoft.AspNet.Hosting.HttpRuntime.Mvc</Name>
+      <Name>Microsoft.AspNet.Hosting.SystemWeb.Mvc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions.csproj">
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions\Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions.csproj">
       <Project>{9d3fca9a-108f-4664-8fc7-1e71b767da87}</Project>
-      <Name>Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractiions</Name>
+      <Name>Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime.WebApi\Microsoft.AspNet.Hosting.HttpRuntime.WebApi.csproj">
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.SystemWeb.WebApi\Microsoft.AspNet.Hosting.SystemWeb.WebApi.csproj">
       <Project>{556f5e46-6510-41fa-9ea6-a72834baac2d}</Project>
-      <Name>Microsoft.AspNet.Hosting.HttpRuntime.WebApi</Name>
+      <Name>Microsoft.AspNet.Hosting.SystemWeb.WebApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.HttpRuntime\Microsoft.AspNet.Hosting.HttpRuntime.csproj">
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.SystemWeb\Microsoft.AspNet.Hosting.SystemWeb.csproj">
       <Project>{ff7a9ce8-19bb-4dc9-81d0-ff5eb309db72}</Project>
-      <Name>Microsoft.AspNet.Hosting.HttpRuntime</Name>
+      <Name>Microsoft.AspNet.Hosting.SystemWeb</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj">
       <Project>{1b29ea7f-229d-463d-9227-4d7ae99b3ffa}</Project>
