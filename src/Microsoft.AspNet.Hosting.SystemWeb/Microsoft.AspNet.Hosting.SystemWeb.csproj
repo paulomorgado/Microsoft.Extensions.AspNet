@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.Abstractions.csproj" />
+    <ProjectReference Include="..\Microsoft.AspNet.Hosting.Abstractions\Microsoft.AspNet.Hosting.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
