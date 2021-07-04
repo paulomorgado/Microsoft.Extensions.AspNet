@@ -11,8 +11,8 @@ This is untested code.
 ## What's included?
 
 * Hosting
-  * [Hosting Abstractions for ASP.NET](src/Microsoft.AspNet.Hosting.HttpRuntime.Abstractions)
-  * [Hosting implementations for ASP.NET](src/Microsoft.AspNet.Hosting.HttpRuntime)
+  * [Hosting Abstractions for ASP.NET](src/Microsoft.AspNet.Hosting.Abstractions)
+  * [Hosting implementations for ASP.NET](src/Microsoft.AspNet.Hosting.SystemWeb)
     * Supports
       * Web Forms
       * Master Pages
@@ -22,11 +22,11 @@ This is untested code.
       * Configuration
       * Logging
 * MVC
-  * [Hosting Abstractions for ASP.NET MVC](src/Microsoft.AspNet.Hosting.HttpRuntime.Mvc.Abstractions)
-  * [Hosting implementations for ASP.NET MVC](src/Microsoft.AspNet.Hosting.HttpRuntime.Mvc)
+  * [Hosting Abstractions for ASP.NET MVC](src/Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractions)
+  * [Hosting implementations for ASP.NET MVC](src/Microsoft.AspNet.Hosting.SystemWeb.Mvc)
 * Web API
-  * [Hosting Abstractions for ASP.NET Web API](src/Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Abstractions)
-  * [Hosting implementations for ASP.NET Web API](src/Microsoft.AspNet.Hosting.HttpRuntime.WebApi)
+  * [Hosting Abstractions for ASP.NET Web API](src/Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractions)
+  * [Hosting implementations for ASP.NET Web API](src/Microsoft.AspNet.Hosting.SystemWeb.WebApi)
 
 # Demo application
 
