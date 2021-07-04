@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.Sy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb.WebApi", "src\Microsoft.AspNet.Hosting.SystemWeb.WebApi\Microsoft.AspNet.Hosting.SystemWeb.WebApi.csproj", "{556F5E46-6510-41FA-9EA6-A72834BAAC2D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting", "src\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj", "{1B29EA7F-229D-463D-9227-4D7AE99B3FFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.Abstractions", "src\Microsoft.AspNet.Hosting.Abstractions\Microsoft.AspNet.Hosting.Abstractions.csproj", "{1B29EA7F-229D-463D-9227-4D7AE99B3FFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

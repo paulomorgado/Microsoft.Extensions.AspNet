@@ -427,7 +427,7 @@
       <Project>{ff7a9ce8-19bb-4dc9-81d0-ff5eb309db72}</Project>
       <Name>Microsoft.AspNet.Hosting.SystemWeb</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj">
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.Abstractions\Microsoft.AspNet.Hosting.Abstractions.csproj">
       <Project>{1b29ea7f-229d-463d-9227-4d7ae99b3ffa}</Project>
       <Name>Microsoft.AspNet.Hosting</Name>
     </ProjectReference>

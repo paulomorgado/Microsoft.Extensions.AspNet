@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions.csproj" />
-    <ProjectReference Include="..\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj" />
+    <ProjectReference Include="..\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

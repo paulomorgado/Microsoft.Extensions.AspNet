@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions\Microsoft.AspNet.Hosting.SystemWeb.WebApi.Abstractiions.csproj" />
-    <ProjectReference Include="..\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.csproj" />
+    <ProjectReference Include="..\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
