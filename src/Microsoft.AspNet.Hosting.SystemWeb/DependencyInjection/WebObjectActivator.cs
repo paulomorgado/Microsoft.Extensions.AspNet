@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Reflection;
-using System.Web;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
 {
-    internal sealed class WebObjectActivator : IServiceProvider, IServiceScopeFactory
+    internal sealed class WebObjectActivator : IWebObjectActivator
     {
         private readonly ConcurrentDictionary<Type, ObjectFactory> unresolvedTypes;
         private readonly IServiceProvider serviceProvider;
@@ -39,7 +38,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
                 return objectFactory(serviceProvider, Array.Empty<object>());
             }
 
-            if (ResolveServiceProvider().GetService(serviceType) is object service)
+            if (this.serviceProvider.GetService(serviceType) is object service)
             {
                 return service;
             }
@@ -74,17 +73,6 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
         }
 
         public IServiceScope CreateScope() => new ServiceScrope(this);
-
-        private IServiceProvider ResolveServiceProvider()
-        {
-            if (HttpContext.Current is HttpContext httpContext)
-            {
-                return httpContext.Items[HttpContextKeys.HttpContextServiceProviderKey] as IServiceProvider
-                    ?? serviceProvider;
-            }
-
-            return serviceProvider;
-        }
 
         private sealed class ServiceScrope : IServiceScope
         {

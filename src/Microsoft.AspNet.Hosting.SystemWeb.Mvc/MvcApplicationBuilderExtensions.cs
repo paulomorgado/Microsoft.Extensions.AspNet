@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Web.Mvc;
+using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNet.Hosting.SystemWeb.Mvc.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.Mvc
 {
@@ -17,7 +19,12 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.Mvc
                 throw new ArgumentNullException(nameof(app));
             }
 
-            DependencyResolver.SetResolver(new ServiceProviderMvcDependencyResolver(System.Web.HttpRuntime.WebObjectActivator));
+            var webObjectActivator = app.ApplicationServices.GetRequiredService<IWebObjectActivator>();
+
+            var dependencyResolver = webObjectActivator.GetService<IDependencyResolver>()
+                ?? new ServiceProviderMvcDependencyResolver(webObjectActivator);
+
+            DependencyResolver.SetResolver(dependencyResolver);
 
             return app;
         }

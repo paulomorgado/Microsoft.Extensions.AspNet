@@ -59,6 +59,9 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
                 // Add the IHostingEnvironment and IApplicationLifetime from Microsoft.AspNetCore.Hosting
                 services.AddSingleton(webhostContext.HostingEnvironment);
 
+                // Add web object activator
+                services.AddSingleton<IWebObjectActivator, WebObjectActivator>();
+
                 services.Configure<GenericWebHostServiceOptions>(op =>
                 {
                     // Set the options

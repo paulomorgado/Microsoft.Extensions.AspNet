@@ -16,7 +16,6 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
         /// </summary>
         public SystemWebServiceProviderFactory() : this(new ServiceProviderOptions())
         {
-
         }
 
         /// <summary>
@@ -43,10 +42,11 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
         /// <inheritdoc />
         public IServiceProvider CreateServiceProvider(IServiceCollection containerBuilder)
         {
-            var serviceProvider = containerBuilder.BuildServiceProvider();
+            var serviceProvider = new SystemWebServiceProvider( containerBuilder.BuildServiceProvider());
 
-            System.Web.HttpRuntime.WebObjectActivator = new WebObjectActivator(serviceProvider);
+            System.Web.HttpRuntime.WebObjectActivator = serviceProvider.GetRequiredService<IWebObjectActivator>();
 
+            //return serviceProvider;
             return serviceProvider;
         }
     }

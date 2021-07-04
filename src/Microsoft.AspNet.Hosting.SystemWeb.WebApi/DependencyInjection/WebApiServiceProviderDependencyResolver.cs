@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
+using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi.DependencyInjection
 {
     internal sealed class WebApiServiceProviderDependencyResolver : IDependencyResolver
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IWebObjectActivator webObjectActivator;
 
-        public WebApiServiceProviderDependencyResolver(IServiceProvider serviceProvider)
+        public WebApiServiceProviderDependencyResolver(IWebObjectActivator webObjectActivator)
         {
-            this.serviceProvider = serviceProvider;
+            this.webObjectActivator = webObjectActivator;
         }
 
-        public IDependencyScope BeginScope() => new ServiceProviderWebApiDependencyScope(serviceProvider.CreateScope());
+        public IDependencyScope BeginScope() => new ServiceProviderWebApiDependencyScope(webObjectActivator.CreateScope());
 
-        public object GetService(Type serviceType) => serviceProvider.GetService(serviceType);
+        public object GetService(Type serviceType) => webObjectActivator.GetService(serviceType);
 
-        public IEnumerable<object> GetServices(Type serviceType) => serviceProvider.GetServices(serviceType);
+        public IEnumerable<object> GetServices(Type serviceType) => webObjectActivator.GetServices(serviceType);
 
         public void Dispose()
         {

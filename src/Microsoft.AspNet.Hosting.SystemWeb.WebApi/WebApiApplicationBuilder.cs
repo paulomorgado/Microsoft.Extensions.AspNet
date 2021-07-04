@@ -6,7 +6,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
 {
     public class WebApiApplicationBuilder : IWebApiApplicationBuilder
     {
-        private List<Action<HttpConfiguration>> actions = new List<Action<HttpConfiguration>>();
+        private List<Action<IServiceProvider, HttpConfiguration>> actions = new List<Action<IServiceProvider, HttpConfiguration>>();
 
         public WebApiApplicationBuilder(IServiceProvider services)
         {
@@ -15,9 +15,15 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
 
         public IServiceProvider Services { get; }
 
-        public IWebApiApplicationBuilder Configure(Action<HttpConfiguration> configureDelegate)
+        public IWebApiApplicationBuilder Configure(Action<IServiceProvider, HttpConfiguration> configureDelegate)
         {
             actions.Add(configureDelegate);
+            return this;
+        }
+
+        public IWebApiApplicationBuilder Configure(Action<HttpConfiguration> configureDelegate)
+        {
+            actions.Add((_, c) => configureDelegate(c));
             return this;
         }
 
@@ -25,7 +31,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
         {
             foreach (var action in actions)
             {
-                action(config);
+                action(this.Services, config);
             }
         }
     }
