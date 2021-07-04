@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Configuration;
 using Microsoft.AspNet.Hosting.HttpRuntime.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -17,6 +21,12 @@ namespace Microsoft.AspNet.Hosting
 
             return builder
                 .UseContentRoot(System.Web.HttpRuntime.AppDomainAppPath)
+                .ConfigureHostConfiguration(configurationBuilder =>
+                    configurationBuilder.AddInMemoryCollection(
+                        from key in WebConfigurationManager.AppSettings.AllKeys
+                        let value = WebConfigurationManager.AppSettings.GetValues(key)?.LastOrDefault()
+                        where !(value is null)
+                        select new KeyValuePair<string, string>(key, value)))
                 .UseServiceProviderFactory<IServiceCollection>(new HttpRuntimeServiceProviderFactory());
         }
 
