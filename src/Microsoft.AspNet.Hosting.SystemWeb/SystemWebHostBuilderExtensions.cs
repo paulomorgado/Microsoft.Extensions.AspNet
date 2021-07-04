@@ -5,6 +5,7 @@ using System.Web.Configuration;
 using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb

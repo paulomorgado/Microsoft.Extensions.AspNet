@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Web.Http;
+using System.Web.Http.Dependencies;
+using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNet.Hosting.SystemWeb.WebApi.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
 {
@@ -23,9 +26,17 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
                 throw new ArgumentNullException(nameof(app));
             }
 
-            var builder = new WebApiApplicationBuilder(System.Web.HttpRuntime.WebObjectActivator);
+            var builder = new WebApiApplicationBuilder(app.ApplicationServices);
 
-            builder.Configure(config => config.DependencyResolver = new WebApiServiceProviderDependencyResolver(System.Web.HttpRuntime.WebObjectActivator));
+            builder.Configure((services, config) =>
+            {
+                var webObjectActivator = services.GetRequiredService<IWebObjectActivator>();
+
+                var dependencyResolver = webObjectActivator.GetService<IDependencyResolver>()
+                    ?? new WebApiServiceProviderDependencyResolver(webObjectActivator);
+
+                config.DependencyResolver = dependencyResolver;
+            });
 
             configureDelegate(builder);
 

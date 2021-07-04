@@ -1,17 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Microsoft.AspNet.Hosting</RootNamespace>
+    <RootNamespace>Microsoft.AspNet.Hosting.System.Web</RootNamespace>
     <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Description>Hosting infrastructure and startup logic for ASP.NET applications on .NET Framework.</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="AspNetHost.cs" />
-    <Compile Remove="AspNetHostBuilder.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="System.Web" />
@@ -30,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.AspNet.Hosting.Abstractions\Microsoft.AspNet.Hosting.Abstractions.csproj" />
+    <ProjectReference Include="..\Microsoft.AspNet.Hosting.SystemWeb.Abstractions\Microsoft.AspNet.Hosting.SystemWeb.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

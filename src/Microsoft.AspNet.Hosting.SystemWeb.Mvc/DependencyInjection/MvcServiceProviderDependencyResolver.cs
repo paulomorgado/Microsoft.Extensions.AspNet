@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.Mvc.DependencyInjection
 {
     internal sealed class ServiceProviderMvcDependencyResolver : System.Web.Mvc.IDependencyResolver
     {
-        private readonly System.IServiceProvider serviceProvider;
+        private readonly IWebObjectActivator webObjectActivator;
 
-        public ServiceProviderMvcDependencyResolver(System.IServiceProvider serviceProvider)
+        public ServiceProviderMvcDependencyResolver(IWebObjectActivator webObjectActivator)
         {
-            this.serviceProvider = serviceProvider;
+            this.webObjectActivator = webObjectActivator;
         }
 
-        public object GetService(System.Type serviceType) => serviceProvider.GetService(serviceType);
+        public object GetService(System.Type serviceType) => webObjectActivator.GetService(serviceType);
 
-        public IEnumerable<object> GetServices(System.Type serviceType) => serviceProvider.GetServices(serviceType);
+        public IEnumerable<object> GetServices(System.Type serviceType) => webObjectActivator.GetServices(serviceType);
     }
 }

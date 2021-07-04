@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractiions.csproj" />
-    <ProjectReference Include="..\Microsoft.AspNet.Hosting\Microsoft.AspNet.Hosting.Abstractions.csproj" />
+    <ProjectReference Include="..\Microsoft.AspNet.Hosting.SystemWeb.Abstractions\Microsoft.AspNet.Hosting.SystemWeb.Abstractions.csproj" />
+    <ProjectReference Include="..\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractions\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
