@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Web;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.AspNet.Hosting.HttpRuntime
 {
-    internal sealed class HttpRuntimeHostModule : IHttpModule
+    internal sealed class SystemWebHostModule : IHttpModule
     {
-        private readonly IServiceScope httpApplicationServiceScope;
+        private static readonly Lazy<IHost> host = new Lazy<IHost>(BuildHost);
+        private IServiceScope httpApplicationServiceScope;
 
-        public HttpRuntimeHostModule(IServiceProvider serviceProvider)
+        public SystemWebHostModule()
         {
-            httpApplicationServiceScope = serviceProvider.CreateScope();
         }
 
         public void Init(HttpApplication httpApplication)
         {
+            httpApplicationServiceScope = host.Value.Services.CreateScope();
+
             httpApplication.BeginRequest += (sender, e) =>
             {
                 var contextServicesScope = httpApplicationServiceScope.ServiceProvider.CreateScope();
@@ -34,6 +37,21 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime
         public void Dispose()
         {
             httpApplicationServiceScope.Dispose();
+        }
+
+        private static IHost BuildHost()
+        {
+            var builder = Host
+                .CreateDefaultBuilder()
+                .ConfigureHttpRuntimeHostDefaults()
+                .ConfigureHost()
+                .ConfigureHttpRuntimeWebHostDefaults(webBuilder => webBuilder.ConfigureWebHost());
+
+            var host = builder.Build();
+
+            host.Start();
+
+            return host;
         }
     }
 }
