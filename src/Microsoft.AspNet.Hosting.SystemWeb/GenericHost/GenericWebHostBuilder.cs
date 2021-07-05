@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using SystemWebHostingEnvironment = System.Web.Hosting.HostingEnvironment;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb
 {
@@ -233,7 +234,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
         {
             if (!context.Properties.TryGetValue(typeof(WebHostBuilderContext), out var contextVal))
             {
-                var options = new WebHostOptions(context.Configuration, BuildManager.GetGlobalAsaxType()?.BaseType.Assembly.GetName().Name ?? string.Empty);
+                var options = new WebHostOptions(context.Configuration, SystemWebHostingEnvironment.SiteName ?? string.Empty);
                 HostingEnvironment hostingEnvironment = new HostingEnvironment();
                 var webHostBuilderContext = new WebHostBuilderContext
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -45,6 +46,22 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
                 .ConfigureSystemWebWebHostDefaults(webBuilder => webBuilder.ConfigureWebHost());
 
             var host = builder.Build();
+
+            // try stopping the host on application pool shutdown
+            System.Web.Hosting.HostingEnvironment.QueueBackgroundWorkItem(async ct =>
+            {
+                try
+                {
+                    var tcs = new TaskCompletionSource<bool>();
+                    using (ct.Register(() => tcs.SetResult(true)))
+                    {
+                        await tcs.Task;
+                    }
+
+                    await host.StopAsync();
+                }
+                catch { }
+            });
 
             host.Start();
 
