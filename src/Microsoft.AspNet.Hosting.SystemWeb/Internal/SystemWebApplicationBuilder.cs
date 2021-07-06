@@ -6,26 +6,26 @@ using Microsoft.AspNetCore.Http.Features;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb
 {
-    internal sealed class HttpRuntimeApplicationBuilder : IApplicationBuilder
+    internal sealed class SystemWebApplicationBuilder : IApplicationBuilder
     {
         private const string ServerFeaturesKey = "server.Features";
         private const string ApplicationServicesKey = "application.Services";
 
         private readonly IList<Func<RequestDelegate, RequestDelegate>> components = new List<Func<RequestDelegate, RequestDelegate>>();
 
-        public HttpRuntimeApplicationBuilder(IServiceProvider serviceProvider)
+        public SystemWebApplicationBuilder(IServiceProvider serviceProvider)
         {
             Properties = new Dictionary<string, object>(StringComparer.Ordinal);
             ApplicationServices = serviceProvider;
         }
 
-        public HttpRuntimeApplicationBuilder(IServiceProvider serviceProvider, object server)
+        public SystemWebApplicationBuilder(IServiceProvider serviceProvider, object server)
             : this(serviceProvider)
         {
             SetProperty(ServerFeaturesKey, server);
         }
 
-        private HttpRuntimeApplicationBuilder(HttpRuntimeApplicationBuilder builder)
+        private SystemWebApplicationBuilder(SystemWebApplicationBuilder builder)
         {
             Properties = new Dictionary<string, object>(builder.Properties, StringComparer.Ordinal);
         }
@@ -50,7 +50,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             return this;
         }
 
-        public IApplicationBuilder New() => new HttpRuntimeApplicationBuilder(this);
+        public IApplicationBuilder New() => new SystemWebApplicationBuilder(this);
 
         public RequestDelegate Build() => throw new InvalidOperationException();
     }

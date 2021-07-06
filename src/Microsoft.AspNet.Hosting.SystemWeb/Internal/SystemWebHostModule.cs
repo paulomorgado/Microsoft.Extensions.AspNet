@@ -41,7 +41,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
         {
             var builder = Host
                 .CreateDefaultBuilder()
-                .ConfigureHttpRuntimeHostDefaults()
+                .ConfigureSystemWebHostDefaults()
                 .ConfigureHost()
                 .ConfigureSystemWebWebHostDefaults(webBuilder => webBuilder.ConfigureWebHost());
 

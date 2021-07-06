@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using Microsoft.AspNet.FriendlyUrls;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Hosting.HttpRuntime;
 using Microsoft.AspNet.Hosting.SystemWeb;
 using Microsoft.AspNet.Hosting.SystemWeb.Mvc;
 using Microsoft.AspNet.Hosting.SystemWeb.WebApi;

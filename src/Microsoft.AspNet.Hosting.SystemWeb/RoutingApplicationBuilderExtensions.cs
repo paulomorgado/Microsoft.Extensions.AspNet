@@ -2,7 +2,7 @@
 using System.Web.Routing;
 using Microsoft.AspNetCore.Builder;
 
-namespace Microsoft.AspNet.Hosting.HttpRuntime
+namespace Microsoft.AspNet.Hosting.SystemWeb
 {
     /// <summary>
     /// Contains extension methods to <see cref="IApplicationBuilder"/>.

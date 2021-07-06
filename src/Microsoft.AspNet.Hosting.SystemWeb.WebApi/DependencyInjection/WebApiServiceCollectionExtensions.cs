@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Http.Tracing;
-using Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Logging;
 using Microsoft.AspNet.Hosting.SystemWeb.WebApi;
+using Microsoft.AspNet.Hosting.SystemWeb.WebApi.Logging;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection

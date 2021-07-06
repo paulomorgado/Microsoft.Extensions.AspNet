@@ -10,11 +10,10 @@ using System.Text;
 using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Tracing;
-using Microsoft.AspNet.Hosting.SystemWeb.WebApi.Logging;
 using Microsoft.Extensions.Logging;
 using Debug = System.Diagnostics.Debug;
 
-namespace Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Logging
+namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi.Logging
 {
     /// <summary>
     /// Implementation of <see cref="ITraceWriter"/> that traces to <see cref="ILogger"/>
@@ -93,7 +92,7 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Logging
                 throw new ArgumentOutOfRangeException(nameof(level), level, "The TraceLevel property must be a value between TraceLevel.Off and TraceLevel.Fatal, inclusive.");
             }
 
-            var logger = this.loggers.GetOrAdd(category, this.loggerFactory);
+            var logger = loggers.GetOrAdd(category, loggerFactory);
 
             LogLevel logLevel = TraceLevelToLogLevel[(int)level];
 
@@ -303,7 +302,7 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Logging
                 }
 
                 if (!(loggerRecord.Response.HttpResponseError.ModelStateErrors is null)
-                    && (loggerRecord.Response.HttpResponseError.ModelStateErrors.Count > 0))
+                    && loggerRecord.Response.HttpResponseError.ModelStateErrors.Count > 0)
                 {
                     messageBuilder
                         .Append(", ModelStateError=[");
@@ -320,7 +319,7 @@ namespace Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Logging
                         messageBuilder
                             .Append(modelStateError.Key);
 
-                        if (!(modelStateError.Value is null) && (modelStateError.Value.Count > 0))
+                        if (!(modelStateError.Value is null) && modelStateError.Value.Count > 0)
                         {
                             var j = -1;
                             foreach (var value in modelStateError.Value)

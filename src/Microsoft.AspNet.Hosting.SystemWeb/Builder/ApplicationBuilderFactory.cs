@@ -27,7 +27,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.Builder
         /// <returns>An <see cref="IApplicationBuilder"/> configured with <paramref name="serverFeatures"/>.</returns>
         public IApplicationBuilder CreateBuilder(IFeatureCollection serverFeatures)
         {
-            return new HttpRuntimeApplicationBuilder(_serviceProvider, serverFeatures);
+            return new SystemWebApplicationBuilder(_serviceProvider, serverFeatures);
         }
     }
 }

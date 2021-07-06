@@ -27,7 +27,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             this.options = options.Value;
             this.applicationBuilderFactory = applicationBuilderFactory;
             StartupFilters = startupFilters;
-            logger = loggerFactory.CreateLogger("Microsoft.AspNet.Hosting.HttpRuntime.Diagnostics");
+            logger = loggerFactory.CreateLogger("Microsoft.AspNet.Hosting.SystemWeb.Diagnostics");
         }
 
         public IEnumerable<IStartupFilter> StartupFilters { get; }

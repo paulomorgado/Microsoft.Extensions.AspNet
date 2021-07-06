@@ -1,8 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
-using Microsoft.AspNet.Hosting.SystemWeb.WebApi.Logging;
 
-namespace Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Logging
+namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi.Logging
 {
     public sealed class ResponseRecord
     {
