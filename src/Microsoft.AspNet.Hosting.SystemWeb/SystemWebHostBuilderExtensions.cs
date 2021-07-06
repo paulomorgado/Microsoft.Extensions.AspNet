@@ -12,7 +12,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
 {
     public static class SystemWebHostBuilderExtensions
     {
-        public static IHostBuilder ConfigureHttpRuntimeHostDefaults(this IHostBuilder builder)
+        public static IHostBuilder ConfigureSystemWebHostDefaults(this IHostBuilder builder)
         {
             if (builder is null)
             {

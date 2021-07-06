@@ -3,7 +3,7 @@
 namespace Microsoft.AspNet.Hosting
 {
     /// <summary>
-    /// Provides convenience methods for creating instances of <see cref="IHttpRuntimeWebHost"/> and <see cref="IWebHostBuilder"/> with pre-configured defaults.
+    /// Provides convenience methods for creating instances of <see cref="IWebHost"/> and <see cref="IWebHostBuilder"/> with pre-configured defaults.
     /// </summary>
     public static class SystemWebWebHost
     {

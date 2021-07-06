@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Http.Tracing;
-using Microsoft.AspNet.Hosting.HttpRuntime.WebApi.Logging;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi.Logging
 {

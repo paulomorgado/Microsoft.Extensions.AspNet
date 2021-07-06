@@ -95,7 +95,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
 
                         var hostingEnvironment = sp.GetRequiredService<IWebHostEnvironment>();
 
-                        // Check if the instance implements IHttpRuntimeStartup before wrapping
+                        // Check if the instance implements IStartup before wrapping
                         if (instance is IStartup startup)
                         {
                             return startup;

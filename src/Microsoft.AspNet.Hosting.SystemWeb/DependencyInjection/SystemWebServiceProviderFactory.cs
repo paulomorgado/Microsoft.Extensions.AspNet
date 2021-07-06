@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
@@ -44,7 +45,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
         {
             var serviceProvider = new SystemWebServiceProvider( containerBuilder.BuildServiceProvider());
 
-            System.Web.HttpRuntime.WebObjectActivator = serviceProvider.GetRequiredService<IWebObjectActivator>();
+            HttpRuntime.WebObjectActivator = serviceProvider.GetRequiredService<IWebObjectActivator>();
 
             //return serviceProvider;
             return serviceProvider;
