@@ -407,6 +407,10 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.SystemWeb.Abstractions\Microsoft.AspNet.Hosting.SystemWeb.Abstractions.csproj">
+      <Project>{a8d9a522-0301-4730-a2ed-8f082961012c}</Project>
+      <Name>Microsoft.AspNet.Hosting.SystemWeb.Abstractions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractions\Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractions.csproj">
       <Project>{c23cd5e0-bdd7-43a1-8833-95ff1c86ecad}</Project>
       <Name>Microsoft.AspNet.Hosting.SystemWeb.Mvc.Abstractions</Name>
@@ -430,6 +434,10 @@
     <ProjectReference Include="..\..\src\Microsoft.AspNet.Hosting.Abstractions\Microsoft.AspNet.Hosting.Abstractions.csproj">
       <Project>{1b29ea7f-229d-463d-9227-4d7ae99b3ffa}</Project>
       <Name>Microsoft.AspNet.Hosting.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Microsoft.Extensions.Configuration.ConfigurationManager\Microsoft.Extensions.Configuration.ConfigurationManager.csproj">
+      <Project>{eb4bbfe9-108e-48c4-af64-2806cd96e06d}</Project>
+      <Name>Microsoft.Extensions.Configuration.ConfigurationManager</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

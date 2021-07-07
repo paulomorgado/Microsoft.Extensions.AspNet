@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Web" />
   </ItemGroup>
 
@@ -26,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.AspNet.Hosting.Abstractions\Microsoft.AspNet.Hosting.Abstractions.csproj" />
     <ProjectReference Include="..\Microsoft.AspNet.Hosting.SystemWeb.Abstractions\Microsoft.AspNet.Hosting.SystemWeb.Abstractions.csproj" />
+    <ProjectReference Include="..\Microsoft.Extensions.Configuration.ConfigurationManager\Microsoft.Extensions.Configuration.ConfigurationManager.csproj" />
   </ItemGroup>
 
   <ItemGroup>

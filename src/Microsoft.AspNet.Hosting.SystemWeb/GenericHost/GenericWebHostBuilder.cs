@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
-using System.Web.Compilation;
 using System.Web.Configuration;
 using Microsoft.AspNet.Hosting.SystemWeb.Builder;
 using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
@@ -11,10 +10,10 @@ using Microsoft.AspNet.Hosting.SystemWeb.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.ConfigurationManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using SystemWebHostingEnvironment = System.Web.Hosting.HostingEnvironment;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb
 {
@@ -32,13 +31,17 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
         {
             this.builder = builder;
 
-            var configBuilder = new ConfigurationBuilder()
-                .AddInMemoryCollection(GetAppSettings(options.SuppressEnvironmentConfiguration));
+            var configBuilder = new ConfigurationBuilder();
 
             if (!options.SuppressEnvironmentConfiguration)
             {
                 configBuilder.AddEnvironmentVariables(prefix: "ASPNETCORE_");
                 configBuilder.AddEnvironmentVariables(prefix: "ASPNET_");
+            }
+
+            if (!options.SuppressConfigurationConfiguration)
+            {
+                configBuilder.AddConfigurationManager(prefix: "aspnet:", skipConnectionStrings: true);
             }
 
             config = configBuilder.Build();
@@ -200,48 +203,18 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             throw new NotImplementedException();
         }
 
-        private static IEnumerable<KeyValuePair<string, string>> GetAppSettings(bool suppressEnvironmentConfiguration)
-        {
-            if (suppressEnvironmentConfiguration)
-            {
-                return Enumerable.Empty<KeyValuePair<string, string>>();
-            }
-
-            var appSettings = WebConfigurationManager.AppSettings;
-
-            if (appSettings.Count == 0)
-            {
-                return Enumerable.Empty<KeyValuePair<string, string>>();
-            }
-
-            return GetEnumerable(appSettings);
-
-            IEnumerable<KeyValuePair<string, string>> GetEnumerable(System.Collections.Specialized.NameValueCollection settings)
-            {
-                foreach (var key in settings.AllKeys)
-                {
-                    if (key.StartsWith("Microsoft:AspNet:Hosting:HttpRuntime:", StringComparison.OrdinalIgnoreCase)
-                        && settings.GetValues(key) is string[] values && values.Length > 0)
-                    {
-                        yield return new KeyValuePair<string, string>(key.Substring(37), values[values.Length - 1]);
-                    }
-                }
-
-            }
-        }
-
         private static WebHostBuilderContext GetWebHostBuilderContext(HostBuilderContext context)
         {
             if (!context.Properties.TryGetValue(typeof(WebHostBuilderContext), out var contextVal))
             {
-                var options = new WebHostOptions(context.Configuration, SystemWebHostingEnvironment.SiteName ?? string.Empty);
+                var options = new WebHostOptions(context.Configuration, System.Web.Hosting.HostingEnvironment.SiteName ?? string.Empty);
                 HostingEnvironment hostingEnvironment = new HostingEnvironment();
                 var webHostBuilderContext = new WebHostBuilderContext
                 {
                     Configuration = context.Configuration,
                     HostingEnvironment = hostingEnvironment,
                 };
-                hostingEnvironment.Initialize(System.Web.HttpRuntime.AppDomainAppPath, options);
+                hostingEnvironment.Initialize(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath, options);
                 context.Properties[typeof(WebHostBuilderContext)] = webHostBuilderContext;
                 context.Properties[typeof(WebHostOptions)] = options;
                 return webHostBuilderContext;

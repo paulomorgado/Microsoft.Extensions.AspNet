@@ -1,4 +1,6 @@
-﻿namespace Microsoft.AspNet.Hosting.SystemWeb
+﻿using System.Configuration;
+
+namespace Microsoft.AspNet.Hosting.SystemWeb
 {
     /// <summary>
     /// Builder options for use with ConfigureWebHost.
@@ -12,9 +14,9 @@
         public bool SuppressEnvironmentConfiguration { get; set; }
 
         /// <summary>
-        /// Indicates if "Microsoft:AspNet:Hosting:HttpRuntime:" prefixed <see cref="WebConfigurationManager.AppSettings"/> should be added to configuration.
-        /// They are added by default.
+        /// Gets or sets a value indicating whether "aspnet:" prefixed <see cref="ConfigurationManager.AppSettings"/>.
         /// </summary>
-        public bool SuppressAppSettingsConfiguration { get; set; }
+        /// <value><see langword="true" /> if [suppress configuration configuration]; otherwise, <see langword="false" />.</value>
+        public bool SuppressConfigurationConfiguration { get;  set; }
     }
 }
