@@ -21,16 +21,233 @@ jobs:
       - uses: microsoft/setup-msbuild@v1.0.2
       
       - name: Set up projects for analysis
-        uses: security-code-scan/security-code-scan-add-action@main
-        
-      - name: Restore dependencies	
-        run: dotnet restore
+        #uses: security-code-scan/security-code-scan-add-action@main
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop";
+          [string]$SecurityCodeScanPackageName = 'SecurityCodeScan.VS2019'
+          [string]$SecurityCodeScanPackageVersion = '5.1.0'
+          [string]$SecurityCodeScanPackagePath = $null
+          
+          foreach ($projectFile in Get-ChildItem -Path . -Include *.csproj, *.vbproj -File -Recurse -Force) {
+          
+            $project = [xml](Get-Content -LiteralPath $projectFile.FullName -Raw)
+                  
+            $propertyGroup = $project.CreateElement('PropertyGroup', $project.Project.NamespaceURI)
 
+            $errorLog = $project.CreateElement('ErrorLog', $project.Project.NamespaceURI)
+            $errorLog.InnerText = 'analysis.sarif'
+            $propertyGroup.AppendChild($errorLog) | Out-Null
+
+            $additionalFileItemNames = $project.CreateElement("AdditionalFileItemNames", $project.Project.NamespaceURI)
+            $additionalFileItemNames.InnerText = '$(AdditionalFileItemNames);Content'
+            $propertyGroup.AppendChild($additionalFileItemNames) | Out-Null
+
+            $project.Project.AppendChild($propertyGroup) | Out-Null
+
+            $project.Save($projectFile.FullName)
+
+            $packagesConfigFile = $projectFile.Directory.GetFileSystemInfos('packages.config')
+          
+            if ($project.Project.Sdk -or ($project.Project.ItemGroup.PackageReference | ? { $_ }) -or (-not $packagesConfigFile.Exists)) {
+          
+              $project.Project.ItemGroup.PackageReference |
+              Where-Object Include -like 'SecurityCodeScan*' |
+              ForEach-Object { $_.SelectSingleNode('..').RemoveChild($_) | Out-Null }
+          
+              $itemGroup = $project.CreateElement('ItemGroup')
+              $packageReference = $project.CreateElement('PackageReference')
+              $packageReferenceInclude = $project.CreateAttribute('Include')
+              $packageReferenceInclude.Value = $SecurityCodeScanPackageName
+              $packageReference.Attributes.Append($packageReferenceInclude) | Out-Null
+              $packageReferenceVersion = $project.CreateAttribute('Version')
+              $packageReferenceVersion.Value = $SecurityCodeScanPackageVersion
+              $packageReference.Attributes.Append($packageReferenceVersion) | Out-Null
+              $packageReferencePrivateAssets = $project.CreateAttribute('PrivateAssets')
+              $packageReferencePrivateAssets.Value = 'All'
+              $packageReference.Attributes.Append($packageReferencePrivateAssets) | Out-Null
+              $packageReferenceIncludeAssets = $project.CreateAttribute('IncludeAssets')
+              $packageReferenceIncludeAssets.Value = 'runtime; build; native; contentfiles; analyzers; buildtransitive'
+              $packageReference.Attributes.Append($packageReferenceIncludeAssets) | Out-Null
+              $itemGroup.AppendChild($packageReference) | Out-Null
+              $project.Project.AppendChild($itemGroup) | Out-Null
+          
+              if (-not $project.Project.Sdk) {
+                $propertyGroup = $project.CreateElement('PropertyGroup')
+                $restoreProjectStyle = $project.CreateElement('RestoreProjectStyle')
+                $restoreProjectStyle.InnerText = 'PackageReference'
+                $propertyGroup.AppendChild($restoreProjectStyle) | Out-Null
+                $project.Project.AppendChild($propertyGroup) | Out-Null
+              }
+          
+              $project.Save($projectFile.FullName)
+            }
+            else {
+          
+              if (-not $SecurityCodeScanPackagePath) {
+          
+                if (-not (Test-Path packages -PathType Container)) {
+                  $SecurityCodeScanPackagePath = (New-Item -Name packages -ItemType Directory).FullName
+                }
+                else {
+                  $SecurityCodeScanPackagePath = (Get-Item -Path packages).FullName
+                }
+          
+                nuget install $SecurityCodeScanPackageName -Version $SecurityCodeScanPackageVersion -OutputDirectory $SecurityCodeScanPackagePath
+              }
+          
+              $project.Project.ItemGroup.Analyzer |
+              Where-Object Include -like '*SecurityCodeScan*' |
+              ForEach-Object { $_.SelectSingleNode('..').RemoveChild($_) | Out-Null }
+          
+              $propertyGroup = $project.CreateElement('PropertyGroup', $project.Project.NamespaceURI)
+              $restoreProjectStyle = $project.CreateElement('RestoreProjectStyle', $project.Project.NamespaceURI)
+              $restoreProjectStyle.InnerText = 'PackagesConfig'
+              $propertyGroup.AppendChild($restoreProjectStyle) | Out-Null
+              $project.Project.AppendChild($propertyGroup) | Out-Null
+          
+              $itemGroup = $project.CreateElement('ItemGroup', $project.Project.NamespaceURI)
+              $analyzer = $project.CreateElement('Analyzer', $project.Project.NamespaceURI)
+              $analyzerInclude = $project.CreateAttribute('Include')
+              $analyzerInclude.Value = Join-Path -Path $SecurityCodeScanPackagePath -ChildPath "$($SecurityCodeScanPackageName).$($SecurityCodeScanPackageVersion)\analyzers\dotnet\SecurityCodeScan.VS2019.dll"
+              $analyzer.Attributes.Append($analyzerInclude) | Out-Null
+              $itemGroup.AppendChild($analyzer) | Out-Null
+              $project.Project.AppendChild($itemGroup) | Out-Null
+          
+              $project.Save($projectFile.FullName)
+          
+              $packagesConfig = [xml](Get-Content -LiteralPath $packagesConfigFile.FullName -Raw)
+          
+              $packagesConfig.packages.package |
+              Where-Object id -like '*SecurityCodeScan*' |
+              ForEach-Object { $_.SelectSingleNode('..').RemoveChild($_) | Out-Null }
+          
+              $package = $packagesConfig.CreateElement('package')
+              $packageId = $packagesConfig.CreateAttribute('id')
+              $packageId.Value = $SecurityCodeScanPackageName
+              $package.Attributes.Append($packageId) | Out-Null
+              $packageVersion = $packagesConfig.CreateAttribute('version')
+              $packageVersion.Value = $SecurityCodeScanPackageVersion
+              $package.Attributes.Append($packageVersion) | Out-Null
+              $packageDevelopmentDependency = $packagesConfig.CreateAttribute('developmentDependency')
+              $packageDevelopmentDependency.Value = 'true'
+              $package.Attributes.Append($packageDevelopmentDependency) | Out-Null
+          
+              $packagesConfig.packages.AppendChild($package) | Out-Null
+          
+              $packagesConfig.Save($packagesConfigFile.FullName)
+            }
+          }
+
+        
       - name: Build
-        run: dotnet build --no-restore
+        run: msbuild -m -restore -t:Rebuild -p:Configuration=Release -p:RestorePackagesConfig=true
 
       - name: Convert sarif for uploading to GitHub
-        uses: security-code-scan/security-code-scan-results-action@main
+        #uses: security-code-scan/security-code-scan-results-action@main
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop';
+
+          dotnet tool install --global Sarif.Multitool --version 2.4.10
+
+          $outputDir = '../results'
+          
+          New-Item -Path $outputDir -ItemType Directory -Force -ErrorAction Ignore | Out-Null
+          
+          $i = 0
+          
+          foreach ($sarifFile in Get-ChildItem -Path . -Filter analysis.sarif -File -Recurse -Force) {
+          
+              $sarifFilePath = "$($outputDir)\$($i).sarif"
+              $i++
+          
+              & sarif rewrite "$($sarifFile.FullName)" --output "$sarifFilePath" --force --sarif-output-version Current
+          
+              $sarif = Get-Content -LiteralPath $sarifFilePath -Raw | ConvertFrom-Json
+          
+              foreach ($run in $sarif.runs) {
+          
+                  if (-not $run.tool) {
+                      $run | Add-Member -NotePropertyName tool -NotePropertyValue ([PSCustomObject]@{
+                              driver = [PSCustomObject]@{ }
+                          })
+                  }
+          
+                  if (-not $run.tool.driver) {
+                      $run.tool | Add-Member -NotePropertyName driver -NotePropertyValue ([PSCustomObject]@{ })
+                  }
+            
+                  if (-not $run.tool.driver.name) {
+                      $run.tool.driver | Add-Member -NotePropertyName name -NotePropertyValue ''
+                  }
+            
+                  if (-not $run.tool.driver.fullName) {
+                      $run.tool.driver | Add-Member -NotePropertyName fullName -NotePropertyValue ''
+                  }
+            
+                  if (-not $run.tool.driver.informationUri) {
+                      $run.tool.driver | Add-Member -NotePropertyName informationUri -NotePropertyValue ''
+                  }
+          
+                  $run.tool.driver.name = 'SecurityCodeScan'
+                  $run.tool.driver.fullName = 'Vulnerability Patterns Detector for C# and VB.NET'
+                  $run.tool.driver.informationUri = 'https://security-code-scan.github.io'
+          
+                  if ($run.results -and $run.tool.driver.rules) {
+                      
+                      $run.results = @($run.results | Where-Object ruleId -like 'SCS*')
+                      $run.tool.driver.rules = @($run.tool.driver.rules | Where-Object id -like 'SCS*')
+          
+                      foreach ($result in $run.results) {
+          
+                          if ($result.ruleIndex) { $result.ruleIndex = $null }
+                          if ($result.relatedLocations) { $result.relatedLocations = $null }
+          
+                          if (-not $run.locations -and ($result.message.text -match '(.*) in (.*)\((\d+)\)(:.*)')) {
+          
+                                  $result.message.text = $Matches[1]
+            
+                                  if (-not $result.locations) {
+                                      $result | Add-Member -NotePropertyName locations -NotePropertyValue ([PSCustomObject]@{ })
+                                  }
+                          
+                                  $result.locations = @([PSCustomObject]@{
+                                          physicalLocation = [PSCustomObject]@{
+                                              artifactLocation = [PSCustomObject]@{
+                                                  uri = "file:///$($Matches[2])"
+                                              }
+                                              region           = [PSCustomObject]@{
+                                                  startLine   = [int]($Matches[3])
+                                                  startColumn = 1
+                                                  endLine     = [int]($Matches[3])
+                                                  endColumn   = 1                            
+                                              }
+                                          }
+                                      })
+                              }
+                          }
+                      }
+          
+                      foreach ($rule in $run.tool.driver.rules) {
+          
+                          #$rule.shortDescription = $null
+            
+                          if (-not $rule.help) {
+                              $rule | Add-Member -NotePropertyName help -NotePropertyValue $null
+                          }
+                      
+                          $rule.help = [PSCustomObject]@{
+                              text = $rule.helpUri
+                          }
+                      }
+          
+                      if ($run.language) { $run.language = $null }
+                  }
+          
+                  $sarif | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $sarifFilePath -NoNewline
+              }
+
 
       - name: Upload sarif
         uses: github/codeql-action/upload-sarif@v1

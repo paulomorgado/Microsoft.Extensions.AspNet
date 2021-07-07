@@ -17,7 +17,7 @@ namespace Microsoft.AspNet.Hosting
             builder.ConfigureServices((hostingContext, services) =>
             {
             });
-        }
 #endif
+        }
     }
 }
