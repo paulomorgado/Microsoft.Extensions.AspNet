@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.Ab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb.Abstractions", "src\Microsoft.AspNet.Hosting.SystemWeb.Abstractions\Microsoft.AspNet.Hosting.SystemWeb.Abstractions.csproj", "{A8D9A522-0301-4730-A2ED-8F082961012C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.AspNet.Hosting.SystemWeb.Tests", "tests\Microsoft.AspNet.Hosting.SystemWeb.Tests\Microsoft.AspNet.Hosting.SystemWeb.Tests.csproj", "{989ADF77-2743-4073-8295-A12720613E85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNet.Hosting.SystemWeb.Tests", "tests\Microsoft.AspNet.Hosting.SystemWeb.Tests\Microsoft.AspNet.Hosting.SystemWeb.Tests.csproj", "{989ADF77-2743-4073-8295-A12720613E85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{A4274275-5F57-4EC3-9651-AD4BCFB0E488}"
 EndProject
