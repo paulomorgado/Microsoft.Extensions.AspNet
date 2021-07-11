@@ -35,7 +35,7 @@ namespace SampleWebApplication.App_Start
             services.Configure<FeedOptions>(this.configuration.GetSection("feed"));
             services.Configure<ApplicationOptions>(this.configuration.GetSection("application"));
 
-            services.AddHttpClient<ISyndicationClient, SyndicationClient>()
+            services.AddHttpClient<ISyndicationClient, SyndicationClient>("SyndicationClient")
                 .AddPolicyHandler(
                     HttpPolicyExtensions
                         .HandleTransientHttpError()
