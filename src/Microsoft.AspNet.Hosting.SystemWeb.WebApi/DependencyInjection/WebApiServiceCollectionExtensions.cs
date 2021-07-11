@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Tracing;
 using Microsoft.AspNet.Hosting.SystemWeb.WebApi;
+using Microsoft.AspNet.Hosting.SystemWeb.WebApi.DependencyInjection;
 using Microsoft.AspNet.Hosting.SystemWeb.WebApi.Logging;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -24,7 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.TryAddSingleton<ITraceWriter, LoggerTraceWritter>();
-
+            services.TryAddSingleton<IDependencyResolver, WebApiServiceProviderDependencyResolver>();
 
             var builder = new WebApiBuilder(services);
 

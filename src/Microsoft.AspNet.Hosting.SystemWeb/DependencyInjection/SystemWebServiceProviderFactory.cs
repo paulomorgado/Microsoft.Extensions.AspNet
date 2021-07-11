@@ -45,9 +45,6 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection
         {
             var serviceProvider = new SystemWebServiceProvider( containerBuilder.BuildServiceProvider());
 
-            HttpRuntime.WebObjectActivator = serviceProvider.GetRequiredService<IWebObjectActivator>();
-
-            //return serviceProvider;
             return serviceProvider;
         }
     }

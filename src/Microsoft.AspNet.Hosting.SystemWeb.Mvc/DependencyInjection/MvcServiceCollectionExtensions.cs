@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Web.Mvc;
 using Microsoft.AspNet.Hosting.SystemWeb.Mvc;
+using Microsoft.AspNet.Hosting.SystemWeb.Mvc.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -19,6 +22,8 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new ArgumentNullException(nameof(services));
             }
+
+            services.TryAddSingleton<IDependencyResolver, ServiceProviderMvcDependencyResolver>();
 
             var builder = new MvcBuilder(services);
 

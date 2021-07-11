@@ -2,7 +2,7 @@
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.Mvc
 {
-    public class MvcBuilder : IMvcBuilder
+    internal sealed class MvcBuilder : IMvcBuilder
     {
         public MvcBuilder(IServiceCollection services)
         {

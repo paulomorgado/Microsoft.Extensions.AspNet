@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -46,6 +47,8 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
                 .ConfigureSystemWebWebHostDefaults(webBuilder => webBuilder.ConfigureWebHost());
 
             var host = builder.Build();
+
+            HttpRuntime.WebObjectActivator = host.Services.GetRequiredService<IWebObjectActivator>();
 
             // try stopping the host on application pool shutdown
             System.Web.Hosting.HostingEnvironment.QueueBackgroundWorkItem(async ct =>

@@ -2,7 +2,7 @@
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
 {
-    public class WebApiBuilder : IWebApiBuilder
+    internal sealed class WebApiBuilder : IWebApiBuilder
     {
         public WebApiBuilder(IServiceCollection services)
         {

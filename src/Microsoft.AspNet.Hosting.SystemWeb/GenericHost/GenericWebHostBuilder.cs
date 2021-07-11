@@ -200,7 +200,22 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
 
         public IWebHostBuilder Configure(Action<WebHostBuilderContext, IApplicationBuilder> configure)
         {
-            throw new NotImplementedException();
+            // Clear the startup type
+            this.startupObject = configure;
+
+            this.builder.ConfigureServices((context, services) =>
+            {
+                if (object.ReferenceEquals(this.startupObject, configure))
+                {
+                    services.Configure<GenericWebHostServiceOptions>(options =>
+                    {
+                        var webhostBuilderContext = GetWebHostBuilderContext(context);
+                        options.ConfigureApplication = app => configure(webhostBuilderContext, app);
+                    });
+                }
+            });
+
+            return this;
         }
 
         private static WebHostBuilderContext GetWebHostBuilderContext(HostBuilderContext context)
