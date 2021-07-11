@@ -5,7 +5,9 @@ using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.ConfigurationManager;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb
 {
@@ -37,12 +39,25 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
                 throw new ArgumentNullException(nameof(configure));
             }
 
-            return builder.ConfigureWebHost(webHostBuilder =>
-            {
-                SystemWebWebHost.ConfigureSystemWebWebDefaults(webHostBuilder);
+            return builder
+                .ConfigureLogging(loggingBuilder =>
+                {
+                    // Remove Console Logger
+                    for (int i = loggingBuilder.Services.Count - 1; i >= 0; i--)
+                    {
+                        ServiceDescriptor descriptor = loggingBuilder.Services[i];
+                        if (descriptor.ImplementationType == typeof(ConsoleLoggerProvider))
+                        {
+                            loggingBuilder.Services.RemoveAt(i);
+                        }
+                    }
+                })
+                .ConfigureWebHost(webHostBuilder =>
+                {
+                    SystemWebWebHost.ConfigureSystemWebWebDefaults(webHostBuilder);
 
-                configure?.Invoke(webHostBuilder);
-            });
+                    configure?.Invoke(webHostBuilder);
+                });
         }
     }
 }

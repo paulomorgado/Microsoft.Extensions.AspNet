@@ -4,7 +4,7 @@ using System.Web.Http;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
 {
-    public class WebApiApplicationBuilder : IWebApiApplicationBuilder
+    internal sealed class WebApiApplicationBuilder : IWebApiApplicationBuilder
     {
         private List<Action<IServiceProvider, HttpConfiguration>> actions = new List<Action<IServiceProvider, HttpConfiguration>>();
 

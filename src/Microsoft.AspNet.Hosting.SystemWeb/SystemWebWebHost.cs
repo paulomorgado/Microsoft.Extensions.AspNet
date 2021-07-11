@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Web;
+using Microsoft.AspNet.Hosting.SystemWeb;
+using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.AspNet.Hosting
 {
@@ -13,11 +18,12 @@ namespace Microsoft.AspNet.Hosting
             builder.ConfigureAppConfiguration((ctx, cb) =>
             {
             });
+#endif
 
             builder.ConfigureServices((hostingContext, services) =>
             {
+                services.TryAddSingleton<IWebObjectActivator, WebObjectActivator>();
             });
-#endif
         }
     }
 }

@@ -19,12 +19,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.Mvc
                 throw new ArgumentNullException(nameof(app));
             }
 
-            var webObjectActivator = app.ApplicationServices.GetRequiredService<IWebObjectActivator>();
-
-            var dependencyResolver = webObjectActivator.GetService<IDependencyResolver>()
-                ?? new ServiceProviderMvcDependencyResolver(webObjectActivator);
-
-            DependencyResolver.SetResolver(dependencyResolver);
+            DependencyResolver.SetResolver(app.ApplicationServices.GetRequiredService<IDependencyResolver>());
 
             return app;
         }

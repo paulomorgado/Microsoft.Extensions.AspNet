@@ -30,12 +30,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb.WebApi
 
             builder.Configure((services, config) =>
             {
-                var webObjectActivator = services.GetRequiredService<IWebObjectActivator>();
-
-                var dependencyResolver = webObjectActivator.GetService<IDependencyResolver>()
-                    ?? new WebApiServiceProviderDependencyResolver(webObjectActivator);
-
-                config.DependencyResolver = dependencyResolver;
+                config.DependencyResolver = services.GetRequiredService<IDependencyResolver>();
             });
 
             configureDelegate(builder);
