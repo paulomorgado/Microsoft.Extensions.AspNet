@@ -4,14 +4,19 @@ using System.Web;
 using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb
 {
     internal sealed class SystemWebHostModule : IHttpModule
     {
         private static readonly Lazy<IHost> host = new Lazy<IHost>(BuildHost);
+        private static ILogger logger;
         private IServiceScope httpApplicationServiceScope;
-        private IServiceScope httpContextServiceScope;
+        private IDisposable httpApplicationLoggerScope;
+        private IServiceScope httpRequestServiceScope;
+        private IDisposable httpRequestLoggerScope;
+        private Guid requestId;
 
         public SystemWebHostModule()
         {
@@ -19,22 +24,44 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
 
         public void Init(HttpApplication httpApplication)
         {
-            httpApplicationServiceScope = host.Value.Services.CreateScope();
+            this.httpApplicationServiceScope = host.Value.Services.CreateScope();
+
+            this.httpApplicationLoggerScope = logger.BeginApplicationInstanceScope(Guid.NewGuid());
 
             httpApplication.BeginRequest += (sender, e) =>
             {
-                httpContextServiceScope = httpApplicationServiceScope.ServiceProvider.CreateScope();
+                var request = ((HttpApplication)sender).Context.Request;
+
+                httpRequestServiceScope = httpApplicationServiceScope.ServiceProvider.CreateScope();
+
+                requestId = Guid.NewGuid();
+
+                httpRequestLoggerScope = logger.BeginRequestLoggerScope(requestId);
+
+                logger.LogBeginRequest(requestId, request.Url, request.HttpMethod);
             };
 
             httpApplication.EndRequest += (sender, e) =>
             {
-                httpContextServiceScope?.Dispose();
-                httpContextServiceScope = null;
+                var response = ((HttpApplication)sender).Context.Response;
+
+                logger.LogEndRequest(requestId, response.StatusCode);
+
+                httpRequestLoggerScope.Dispose();
+                httpRequestLoggerScope = null;
+
+                httpRequestServiceScope?.Dispose();
+                httpRequestServiceScope = null;
+
+                this.requestId = Guid.Empty;
             };
         }
 
         public void Dispose()
         {
+            httpRequestLoggerScope?.Dispose();
+            httpRequestServiceScope?.Dispose();
+            httpApplicationLoggerScope.Dispose();
             httpApplicationServiceScope.Dispose();
         }
 
@@ -47,6 +74,8 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
                 .ConfigureSystemWebWebHostDefaults(webBuilder => webBuilder.ConfigureWebHost());
 
             var host = builder.Build();
+
+            logger = host.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Microsoft.AspNet.Hosting.SystemWeb.Diagnostics");
 
             HttpRuntime.WebObjectActivator = host.Services.GetRequiredService<IWebObjectActivator>();
 
