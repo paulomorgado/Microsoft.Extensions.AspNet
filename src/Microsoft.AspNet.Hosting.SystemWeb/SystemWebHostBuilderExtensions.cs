@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Specialized;
 using System.Web.Configuration;
 using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration.ConfigurationManager;
 using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.AspNet.Hosting.SystemWeb
@@ -20,13 +19,9 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             }
 
             return builder
-                .UseContentRoot(System.Web.HttpRuntime.AppDomainAppPath)
+                .UseContentRoot(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath)
                 .ConfigureHostConfiguration(configurationBuilder =>
-                    configurationBuilder.AddInMemoryCollection(
-                        from key in WebConfigurationManager.AppSettings.AllKeys
-                        let value = WebConfigurationManager.AppSettings.GetValues(key)?.LastOrDefault()
-                        where !(value is null)
-                        select new KeyValuePair<string, string>(key, value)))
+                    configurationBuilder.AddConfigurationManager(prefix: "dotnet:", skipConnectionStrings: true))
                 .UseServiceProviderFactory(new SystemWebServiceProviderFactory());
         }
 
