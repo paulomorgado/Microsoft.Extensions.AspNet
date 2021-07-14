@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="SampleWebApplication.ServiceModel.Feed" CodeBehind="Feed.svc.cs" %>

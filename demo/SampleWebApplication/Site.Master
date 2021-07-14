@@ -53,7 +53,7 @@
                         <li><a runat="server" href="~/Home/Index">MVC</a></li>
                         <li><a runat="server" href="~/Default.aspx">Web Forms</a></li>
                         <li><a runat="server" href="~/api/feed" target="_blank">Web API</a></li>
-                        <li><a runat="server" href="~/WebServices/Feed.ashx" target="_blank">Web Handler</a></li>
+                        <li><a runat="server" href="~/WebHandlers/Feed.ashx" target="_blank">Web Handler</a></li>
                     </ul>
                 </div>
             </div>

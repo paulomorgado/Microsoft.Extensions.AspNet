@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using SampleWebApplication.Options;
 using SampleWebApplication.Services;
 
-namespace SampleWebApplication.WebServices
+namespace SampleWebApplication.WebHandlers
 {
     /// <summary>
     /// Summary description for Feed
@@ -20,12 +20,12 @@ namespace SampleWebApplication.WebServices
         public FeedHandler(ISyndicationClient syndicationClient, IOptions<FeedOptions> feedOptions)
         {
             this.syndicationClient = syndicationClient;
-            this.options = feedOptions.Value;
+            options = feedOptions.Value;
         }
 
         public override async Task ProcessRequestAsync(HttpContext context)
         {
-            var feed = await this.syndicationClient.GetSyndicationFeedAsync(this.options.Uri);
+            var feed = await syndicationClient.GetSyndicationFeedAsync(options.Uri);
 
             var response = new XElement("Feed",
                 new XElement("Title", feed.Title.Text),

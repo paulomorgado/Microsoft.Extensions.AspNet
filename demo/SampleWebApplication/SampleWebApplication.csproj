@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -214,6 +215,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
@@ -229,6 +231,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Text.Encodings.Web, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Text.Encodings.Web.5.0.1\lib\net461\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -317,7 +320,8 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <Content Include="WebServices\Feed.ashx" />
+    <Content Include="ServiceModel\Feed.svc" />
+    <Content Include="WebHandlers\Feed.ashx" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -356,7 +360,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="WebServices\Feed.ashx.cs">
+    <Compile Include="ServiceModel\Feed.svc.cs">
+      <DependentUpon>Feed.svc</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceModel\IFeed.cs" />
+    <Compile Include="WebHandlers\Feed.ashx.cs">
       <DependentUpon>Feed.ashx</DependentUpon>
     </Compile>
     <Compile Include="Options\ApplicationOptions.cs" />
@@ -439,6 +447,10 @@
       <Project>{eb4bbfe9-108e-48c4-af64-2806cd96e06d}</Project>
       <Name>Microsoft.Extensions.Configuration.ConfigurationManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Microsoft.Extensions.ServiceModel\Microsoft.Extensions.ServiceModel.csproj">
+      <Project>{ddf80027-4afa-45f2-be32-2eda81b620fd}</Project>
+      <Name>Microsoft.Extensions.ServiceModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -456,7 +468,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1267</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44373/</IISUrl>
+          <IISUrl>https://localhost:44383/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
