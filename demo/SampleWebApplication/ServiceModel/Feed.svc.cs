@@ -9,7 +9,8 @@ using SampleWebApplication.Services;
 
 namespace SampleWebApplication.ServiceModel
 {
-    [SystemWebHostServiceBehavior()]
+    [ServiceBehavior()]
+    [SystemWebHostDependencyInjection()]
     public class Feed : IFeed
     {
         private readonly ISyndicationClient syndicationClient;
