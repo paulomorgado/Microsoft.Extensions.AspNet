@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -21,11 +23,19 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             WebRoot = configuration[WebHostDefaults.WebRootKey];
             ContentRootPath = configuration[WebHostDefaults.ContentRootKey];
             SuppressStatusMessages = configuration.ParseBool(WebHostDefaults.SuppressStatusMessagesKey);
+
+            // Search the primary assembly and configured assemblies.
+            HostingStartupAssemblies = Split($"{ApplicationName};{configuration[WebHostDefaults.HostingStartupAssembliesKey]}");
+            HostingStartupExcludeAssemblies = Split(configuration[WebHostDefaults.HostingStartupExcludeAssembliesKey]);
         }
 
         public string ApplicationName { get; set; }
 
         public bool SuppressStatusMessages { get; set; }
+
+        public IReadOnlyList<string> HostingStartupAssemblies { get; set; }
+
+        public IReadOnlyList<string> HostingStartupExcludeAssemblies { get; set; }
 
         public bool DetailedErrors { get; set; }
 
@@ -38,5 +48,16 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
         public string WebRoot { get; set; }
 
         public string ContentRootPath { get; set; }
+
+        public IEnumerable<string> GetFinalHostingStartupAssemblies()
+        {
+            return HostingStartupAssemblies.Except(HostingStartupExcludeAssemblies, StringComparer.OrdinalIgnoreCase);
+        }
+
+        private IReadOnlyList<string> Split(string value)
+        {
+            return value?.Split(';').Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToArray()
+                ?? Array.Empty<string>();
+        }
     }
 }

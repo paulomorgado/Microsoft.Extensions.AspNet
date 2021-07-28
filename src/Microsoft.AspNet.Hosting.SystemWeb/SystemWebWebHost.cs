@@ -1,11 +1,9 @@
-﻿using System.Web;
-using Microsoft.AspNet.Hosting.SystemWeb;
+﻿using Microsoft.AspNet.Hosting.SystemWeb;
 using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Microsoft.AspNet.Hosting
+namespace Microsoft.AspNet.Hosting.SystemWeb
 {
     /// <summary>
     /// Provides convenience methods for creating instances of <see cref="IWebHost"/> and <see cref="IWebHostBuilder"/> with pre-configured defaults.
@@ -20,10 +18,12 @@ namespace Microsoft.AspNet.Hosting
             });
 #endif
 
-            builder.ConfigureServices((hostingContext, services) =>
+            builder
+                .ConfigureServices((hostingContext, services) =>
             {
                 services.TryAddSingleton<IWebObjectActivator, WebObjectActivator>();
-            });
+            })
+            .UseSystemWebServer();
         }
     }
 }

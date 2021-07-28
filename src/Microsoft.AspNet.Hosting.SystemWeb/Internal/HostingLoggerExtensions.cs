@@ -33,5 +33,13 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
                 message: "Application startup exception",
                 exception: exception);
         }
+
+        public static void HostingStartupAssemblyError(this ILogger logger, Exception exception)
+        {
+            logger.ApplicationError(
+                eventId: LoggerEventIds.HostingStartupAssemblyException,
+                message: "Hosting startup assembly exception",
+                exception: exception);
+        }
     }
 }

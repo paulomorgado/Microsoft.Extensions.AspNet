@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Web.Configuration;
+using Microsoft.AspNet.Hosting.SystemWeb;
 using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.Extensions.Configuration.ConfigurationManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +20,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             }
 
             return builder
-                .UseContentRoot(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath)
+                .UseContentRoot(global::System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath)
                 .ConfigureHostConfiguration(configurationBuilder =>
                     configurationBuilder.AddConfigurationManager(prefix: "dotnet:", skipConnectionStrings: true))
                 .UseServiceProviderFactory(new SystemWebServiceProviderFactory());

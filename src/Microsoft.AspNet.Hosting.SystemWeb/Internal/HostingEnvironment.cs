@@ -2,10 +2,19 @@
 
 namespace Microsoft.AspNet.Hosting.SystemWeb
 {
+    internal sealed class HostingEnvironment : 
+        AspNetCore.Hosting.IHostingEnvironment, 
 #pragma warning disable CS0618 // Type or member is obsolete
-    internal sealed class HostingEnvironment : AspNetCore.Hosting.IHostingEnvironment, IWebHostEnvironment
+        Extensions.Hosting.IHostingEnvironment, 
 #pragma warning restore CS0618 // Type or member is obsolete
+        IWebHostEnvironment
     {
+#if DEBUG
+        public HostingEnvironment()
+        {
+        }
+#endif
+
         /// <inheritdoc/>
         public string EnvironmentName { get; set; } = Extensions.Hosting.Environments.Production;
 

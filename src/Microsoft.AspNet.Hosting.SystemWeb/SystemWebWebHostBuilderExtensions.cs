@@ -4,6 +4,7 @@ using Microsoft.AspNet.Hosting.SystemWeb.DependencyInjection;
 using Microsoft.AspNet.Hosting.SystemWeb.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -226,6 +227,22 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
         public static IWebHostBuilder ConfigureLogging(this IWebHostBuilder hostBuilder, Action<WebHostBuilderContext, ILoggingBuilder> configureLogging)
         {
             return hostBuilder.ConfigureServices((context, collection) => collection.AddLogging(builder => configureLogging(context, builder)));
+        }
+
+        public static IWebHostBuilder UseSystemWebServer(this IWebHostBuilder builder)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            return builder
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton<IServer, SystemWebServer>();
+                    services.AddSingleton<IStartupFilter, SystemWebServerSetupFilter>();
+                    services.AddSingleton<IPipelineManager, PipelineManager>();
+                });
         }
     }
 }

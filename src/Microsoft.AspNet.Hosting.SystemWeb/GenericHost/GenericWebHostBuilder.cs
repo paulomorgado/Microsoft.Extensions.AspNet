@@ -62,6 +62,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
 
                 // Add the IHostingEnvironment and IApplicationLifetime from Microsoft.AspNetCore.Hosting
                 services.AddSingleton(webhostContext.HostingEnvironment);
+                services.AddSingleton((IWebHostEnvironment)webhostContext.HostingEnvironment);
 
                 // Add web object activator
                 services.AddSingleton<IWebObjectActivator, WebObjectActivator>();
@@ -223,7 +224,7 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             if (!context.Properties.TryGetValue(typeof(WebHostBuilderContext), out var contextVal))
             {
                 var options = new WebHostOptions(context.Configuration, System.Web.Hosting.HostingEnvironment.SiteName ?? string.Empty);
-                HostingEnvironment hostingEnvironment = new HostingEnvironment();
+                var hostingEnvironment = new HostingEnvironment();
                 var webHostBuilderContext = new WebHostBuilderContext
                 {
                     Configuration = context.Configuration,
@@ -342,11 +343,11 @@ namespace Microsoft.AspNet.Hosting.SystemWeb
             public object GetService(Type serviceType)
             {
                 // The implementation of the HostingEnvironment supports both interfaces
+                if (serviceType == typeof(IWebHostEnvironment)
+                    || serviceType == typeof(AspNetCore.Hosting.IHostingEnvironment)
 #pragma warning disable CS0618 // Type or member is obsolete
-                if (serviceType == typeof(Extensions.Hosting.IHostingEnvironment)
+                    || serviceType == typeof(Extensions.Hosting.IHostingEnvironment)
 #pragma warning restore CS0618 // Type or member is obsolete
-                    || serviceType == typeof(IWebHostEnvironment)
-                    || serviceType == typeof(IHostEnvironment)
                     )
                 {
                     return _context.HostingEnvironment;
